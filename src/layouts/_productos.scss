@@ -41,9 +41,11 @@
             gap: 2.5rem;
             margin: 2rem 0 3rem;
 
-            @include respond-to(md) {
+            @include respond-to(xs) {
                 overflow-x: auto;
-                justify-content: flex-start;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 padding-bottom: 1rem;
             }
 
