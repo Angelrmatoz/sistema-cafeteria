@@ -1,0 +1,11 @@
+// This file is used to import all the other SCSS files in the project.
+
+@forward './variables.scss';
+@forward './mixins.scss';
+@forward './global.scss';
+
+
+// Layouts
+@forward '../layouts/login.scss';
+@forward '../layouts/home.scss';
+@forward '../layouts/_productos.scss';

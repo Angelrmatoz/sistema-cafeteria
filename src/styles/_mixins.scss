@@ -1,0 +1,54 @@
+@use "./variables" as *; // Importar variables
+
+// Mixin para media queries
+@mixin respond-to($breakpoint) {
+    @if $breakpoint ==xs {
+        @media (max-width: 480px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==sm {
+        @media (max-width: 768px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (max-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (max-width: 1200px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (max-width: 1440px) {
+            @content;
+        }
+    }
+}
+
+// Mixin para display flex con opciones personalizables
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    flex-wrap: $wrap;
+
+    @content;
+}
+
+// Mixin para display grid con opciones personalizables
+@mixin grid($columns: 2, $gap: 1rem) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+
+    @content;
+}

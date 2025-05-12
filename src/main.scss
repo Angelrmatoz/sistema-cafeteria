@@ -1,0 +1,8 @@
+// Estilos globales
+
+@use './styles/_index.scss'; // Importar variables, mixins y estilos globales
+
+
+// Importar normalize.css para restablecer estilos predeterminados del navegador
+
+@import 'normalize.css';
