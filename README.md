@@ -43,3 +43,7 @@ src/
 ```
 
 Esta estructura es modular, escalable y facilita el mantenimiento del proyecto. Puedes agregar o quitar carpetas según crezcan las necesidades del sistema de cafetería.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](./LICENSE) para más detalles.
