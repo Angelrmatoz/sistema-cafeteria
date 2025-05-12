@@ -35,13 +35,11 @@
                     font-size: 2rem;
                 }
             }
-        }
-
-        // Contenedor de categorías
+        }        // Contenedor de categorías
         .categorias-container {
             @include flex(row, center, center, wrap);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 2.5rem;
+            margin: 2rem 0 3rem;
 
             @include respond-to(md) {
                 overflow-x: auto;
@@ -50,30 +48,31 @@
             }
 
             .categoria-card {
-                padding: 1.5rem;
-                border-radius: 1rem;
+                padding: 1.8rem;
+                border-radius: 1.5rem;
                 color: white;
-                width: 12rem;
+                width: 15rem;
                 cursor: pointer;
                 transition: transform 0.2s, box-shadow 0.2s;
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+                text-align: center;
 
                 @include respond-to(md) {
                     min-width: 10rem;
-                }
-
-                h3 {
-                    margin: 0;
-                    font-size: 1.4rem;
+                }                h3 {
+                    margin: 0 0 0.8rem 0;
+                    font-size: 1.8rem;
+                    font-weight: $bold;
                 }
 
                 span {
-                    font-size: 1.2rem;
-                    opacity: 0.8;
-                }
-
-                &:hover {
-                    transform: translateY(-0.5rem);
-                    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+                    font-size: 1.4rem;
+                    opacity: 0.9;
+                    display: block;
+                    margin-top: 0.5rem;
+                }                &:hover {
+                    transform: translateY(-0.7rem);
+                    box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.2);
                 }
 
                 &.selected {

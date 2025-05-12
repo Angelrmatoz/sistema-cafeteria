@@ -137,15 +137,15 @@ const Products = () => {
         <div className="carrito-summary">
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${total.toFixed(2)}</span>
+            <span>RD${total.toFixed(2)}</span>
           </div>
           <div className="summary-row">
             <span>Impuestos</span>
-            <span>${(total * 0.07).toFixed(2)}</span>
+            <span>RD${(total * 0.07).toFixed(2)}</span>
           </div>
           <div className="summary-row total">
             <span>Total</span>
-            <span>${(total + total * 0.07).toFixed(2)}</span>
+            <span>RD${(total + total * 0.07).toFixed(2)}</span>
           </div>
         </div>
 
