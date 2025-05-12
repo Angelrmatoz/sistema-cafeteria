@@ -5,14 +5,14 @@ const Products = () => {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0); // Categorías de productos
   const categories = [
-    { id: 1, name: "Desayunos", color: "#003366", items: 4 },
+    { id: 1, name: "Desayunos", color: "#003366", items: 2 },
     { id: 2, name: "Almuerzos", color: "#8cc63f", items: 1 },
-    { id: 3, name: "Bebidas", color: "#0071bc", items: 3 },
+    { id: 3, name: "Bebidas", color: "#0071bc", items: 2 },
   ]; // Productos de ejemplo
   const products = [
     { id: 1, name: "Plato del día", price: 259.0, category: 2 },
-    { id: 5, name: "Café con leche", price: 4.0, category: 3 },
-    { id: 6, name: "Jugo de naranja", price: 5.0, category: 3 },
+    { id: 5, name: "Jugo", price: 50.0, category: 3 },
+    { id: 6, name: "Refresco", price: 60.0, category: 3 },
     { id: 7, name: "Tostadas con aguacate", price: 8.0, category: 1 },
     { id: 8, name: "Pancakes", price: 7.0, category: 1 },
   ];

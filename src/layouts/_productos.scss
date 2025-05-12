@@ -27,12 +27,12 @@
 
             h2 {
                 color: white;
-                font-size: 2.4rem;
+                font-size: 3rem;
                 text-align: center;
                 margin: 0;
 
                 @include respond-to(xs) {
-                    font-size: 2rem;
+                    font-size: 3rem;
                 }
             }
         }        // Contenedor de categorías
