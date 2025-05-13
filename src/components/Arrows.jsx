@@ -23,54 +23,59 @@ const Arrows = ({
 }) => {
   return (
     <div className="navigation-arrows">
-      <button
-        className={`arrow-btn arrow-prev ${disablePrevious ? "disabled" : ""}`}
-        onClick={onPrevious}
-        disabled={disablePrevious}
-        aria-label={`Ir a categoría ${previousName || "anterior"}`}
-        title={previousName ? `Ir a ${previousName}` : "Categoría anterior"}
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <div className="arrow-container arrow-container-left">
+        <button
+          className={`arrow-btn arrow-prev ${
+            disablePrevious ? "disabled" : ""
+          }`}
+          onClick={onPrevious}
+          disabled={disablePrevious}
+          aria-label={`Ir a categoría ${previousName || "anterior"}`}
+          title={previousName ? `Ir a ${previousName}` : "Categoría anterior"}
         >
-          <path
-            d="M15 18L9 12L15 6"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        {previousName && <span className="category-name">{previousName}</span>}
-      </button>
-      <button
-        className={`arrow-btn arrow-next ${disableNext ? "disabled" : ""}`}
-        onClick={onNext}
-        disabled={disableNext}
-        aria-label={`Ir a categoría ${nextName || "siguiente"}`}
-        title={nextName ? `Ir a ${nextName}` : "Categoría siguiente"}
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 18L9 12L15 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div className="arrow-container arrow-container-right">
+        <button
+          className={`arrow-btn arrow-next ${disableNext ? "disabled" : ""}`}
+          onClick={onNext}
+          disabled={disableNext}
+          aria-label={`Ir a categoría ${nextName || "siguiente"}`}
+          title={nextName ? `Ir a ${nextName}` : "Categoría siguiente"}
         >
-          <path
-            d="M9 6L15 12L9 18"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        {nextName && <span className="category-name">{nextName}</span>}
-      </button>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9 6L15 12L9 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };

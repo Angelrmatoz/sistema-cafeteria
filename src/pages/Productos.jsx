@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "../components/Button";
+import Arrows from "../components/Arrows";
 
 const Products = () => {
   const [cart, setCart] = useState([]);
@@ -88,51 +89,37 @@ const Products = () => {
       <div className="productos-sidebar">
         {" "}
         <div className="productos-sidebar__header">
-          <h2>Menú</h2>
+          <h2>Menú</h2>{" "}
         </div>{" "}
         <div className="categorias-navigation-container">
-          <button
-            className="navigation-arrow left"
-            onClick={navigateToPreviousCategory}
-            disabled={
+          <Arrows
+            onPrevious={navigateToPreviousCategory}
+            onNext={navigateToNextCategory}
+            disablePrevious={
               categories.findIndex((cat) => cat.id === selectedCategory) === 0
             }
-            title={
-              categories.findIndex((cat) => cat.id === selectedCategory) > 0
-                ? `Ir a ${
-                    categories[
-                      categories.findIndex(
-                        (cat) => cat.id === selectedCategory
-                      ) - 1
-                    ]?.name
-                  }`
-                : "No hay categoría anterior"
+            disableNext={
+              categories.findIndex((cat) => cat.id === selectedCategory) ===
+              categories.length - 1
             }
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M15 18L9 12L15 6"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="category-name">
-              {categories.findIndex((cat) => cat.id === selectedCategory) > 0
+            previousName={
+              categories.findIndex((cat) => cat.id === selectedCategory) > 0
                 ? categories[
                     categories.findIndex((cat) => cat.id === selectedCategory) -
                       1
                   ]?.name
-                : ""}
-            </span>
-          </button>
+                : ""
+            }
+            nextName={
+              categories.findIndex((cat) => cat.id === selectedCategory) <
+              categories.length - 1
+                ? categories[
+                    categories.findIndex((cat) => cat.id === selectedCategory) +
+                      1
+                  ]?.name
+                : ""
+            }
+          />
 
           <div className="categorias-container">
             {categories.map((category) => (
@@ -149,52 +136,6 @@ const Products = () => {
               </div>
             ))}
           </div>
-
-          <button
-            className="navigation-arrow right"
-            onClick={navigateToNextCategory}
-            disabled={
-              categories.findIndex((cat) => cat.id === selectedCategory) ===
-              categories.length - 1
-            }
-            title={
-              categories.findIndex((cat) => cat.id === selectedCategory) <
-              categories.length - 1
-                ? `Ir a ${
-                    categories[
-                      categories.findIndex(
-                        (cat) => cat.id === selectedCategory
-                      ) + 1
-                    ]?.name
-                  }`
-                : "No hay categoría siguiente"
-            }
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9 6L15 12L9 18"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="category-name">
-              {categories.findIndex((cat) => cat.id === selectedCategory) <
-              categories.length - 1
-                ? categories[
-                    categories.findIndex((cat) => cat.id === selectedCategory) +
-                      1
-                  ]?.name
-                : ""}
-            </span>
-          </button>
         </div>{" "}
         <div className="productos-grid-container">
           {" "}

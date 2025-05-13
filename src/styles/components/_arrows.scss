@@ -3,44 +3,74 @@
 @use "sass:color";
 
 .navigation-arrows {
-    @include flex(row, center, center, nowrap);
-    gap: 2rem;
-    margin: 1rem 0;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 3rem;
-    padding: 0.8rem 1.5rem;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; // Para permitir clics en los elementos debajo
+    z-index: 10;
+
+    .arrow-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        @include flex(row, center, center, nowrap);
+        pointer-events: none;
+        z-index: 10;
+
+        &-left {
+            left: 10%;
+        }
+
+        &-right {
+            right: 10%;
+        }
+
+        @include respond-to(lg) {
+            &-left {
+                left: 0;
+            }
+
+            &-right {
+                right: 0;
+            }
+        }
+    }
 
     .arrow-btn {
         width: 4.5rem;
         height: 4.5rem;
         border-radius: 50%;
-        background: white;
+        background: rgba(255, 255, 255, 0.15); // Semi-transparente como solicitado
         border: none;
         box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.15);
         cursor: pointer;
         transition: all 0.3s ease;
-        color: $color-dga-blue;
+        color: white;
         position: relative;
+        pointer-events: auto; // Reactivamos los eventos de puntero para el botón
+        backdrop-filter: blur(5px); // Efecto de desenfoque para mejorar la semi-transparencia
 
         &:hover {
-            transform: translateY(-0.3rem);
-            box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
-            background: color.adjust(white, $lightness: -5%);
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.15);
+            box-shadow: 0 0.4rem 1.2rem rgba(255, 255, 255, 0.2);
         }
 
         &:active {
-            transform: translateY(0);
-            box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1);
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0.2rem 0.5rem rgba(255, 255, 255, 0.1);
         }
 
         &.disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
+            pointer-events: none;
 
             &:hover {
                 transform: none;
                 box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
-                background: white;
+                background: rgba(255, 255, 255, 0.15);
             }
         }
 
@@ -53,50 +83,47 @@
 
         .category-name {
             position: absolute;
-            bottom: -2.5rem;
-            font-size: 1.2rem;
             white-space: nowrap;
-            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
             transition: all 0.3s ease;
             opacity: 0;
-            transform: translateY(-0.5rem);
+            pointer-events: none;
+            z-index: 15;
         }
 
         &:hover {
             .category-name {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
-        // Para pantallas mayores a md (que es equivalente a invertir el respond-to)
-        // El respond-to normal define max-width, así que invertimos la lógica
-        // aplicando estilos para pantallas distintas a md
-        @media (min-width: $breakpoint-md) {
-            &.arrow-prev .category-name {
-                right: calc(100% + 1rem);
-                bottom: auto;
-                top: 50%;
-                transform: translateY(-50%);
-                opacity: 0;
+        // Posicionamiento para los nombres de categoría en hover
+        &.arrow-prev .category-name {
+            right: calc(100% + 1rem);
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-                &:hover,
-                &:focus {
-                    opacity: 1;
-                }
-            }
+        &.arrow-next .category-name {
+            left: calc(100% + 1rem);
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
+        // Ajustes para pantallas pequeñas
+        @include respond-to(md) {
+
+            &.arrow-prev .category-name,
             &.arrow-next .category-name {
-                left: calc(100% + 1rem);
-                bottom: auto;
-                top: 50%;
-                transform: translateY(-50%);
-                opacity: 0;
-
-                &:hover,
-                &:focus {
-                    opacity: 1;
-                }
+                top: auto;
+                bottom: -3.5rem;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
             }
         }
     }
