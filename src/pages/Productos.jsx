@@ -158,11 +158,11 @@ const Products = () => {
       <div className="carrito-container">
         <h2 className="carrito-title">Cuenta</h2>
 
-        <div className="carrito-tabs">
+        {/* <div className="carrito-tabs">
           <span className="carrito-tab active">Cuenta</span>
           <span className="carrito-tab">Acciones</span>
           <span className="carrito-tab">Cliente</span>
-        </div>
+        </div> */}
 
         <div className="carrito-items">
           {cart.length === 0 ? (
