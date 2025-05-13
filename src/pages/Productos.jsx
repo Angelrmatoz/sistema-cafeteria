@@ -3,7 +3,9 @@ import Button from "../components/Button";
 
 const Products = () => {
   const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0); // Categorías de productos
+  const [total, setTotal] = useState(0);
+
+  // Categorías de productos
   const categories = [
     { id: 1, name: "Desayunos", color: "#003366", items: 2 },
     { id: 2, name: "Almuerzos", color: "#8cc63f", items: 1 },
@@ -16,12 +18,30 @@ const Products = () => {
     { id: 7, name: "Sandwich", price: 100.0, category: 1 },
     { id: 8, name: "Empanada", price: 70.0, category: 1 },
   ];
-
   // Filtramos los productos por categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState(1);
   const filteredProducts = products.filter(
     (product) => product.category === selectedCategory
   );
+
+  // Navegación entre categorías
+  const navigateToPreviousCategory = () => {
+    const currentIndex = categories.findIndex(
+      (cat) => cat.id === selectedCategory
+    );
+    if (currentIndex > 0) {
+      setSelectedCategory(categories[currentIndex - 1].id);
+    }
+  };
+
+  const navigateToNextCategory = () => {
+    const currentIndex = categories.findIndex(
+      (cat) => cat.id === selectedCategory
+    );
+    if (currentIndex < categories.length - 1) {
+      setSelectedCategory(categories[currentIndex + 1].id);
+    }
+  };
 
   // Añadir producto al carrito
   const addToCart = (product) => {
@@ -66,38 +86,131 @@ const Products = () => {
   return (
     <div className="productos-container">
       <div className="productos-sidebar">
+        {" "}
         <div className="productos-sidebar__header">
           <h2>Menú</h2>
-        </div>
-
-        <div className="categorias-container">
-          {categories.map((category) => (
-            <div
-              key={category.id}
-              className={`categoria-card ${
-                selectedCategory === category.id ? "selected" : ""
-              }`}
-              style={{ backgroundColor: category.color }}
-              onClick={() => setSelectedCategory(category.id)}
+        </div>{" "}
+        <div className="categorias-navigation-container">
+          <button
+            className="navigation-arrow left"
+            onClick={navigateToPreviousCategory}
+            disabled={
+              categories.findIndex((cat) => cat.id === selectedCategory) === 0
+            }
+            title={
+              categories.findIndex((cat) => cat.id === selectedCategory) > 0
+                ? `Ir a ${
+                    categories[
+                      categories.findIndex(
+                        (cat) => cat.id === selectedCategory
+                      ) - 1
+                    ]?.name
+                  }`
+                : "No hay categoría anterior"
+            }
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <h3>{category.name}</h3>
-              <span>{category.items} productos</span>
-            </div>
-          ))}
-        </div>
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="category-name">
+              {categories.findIndex((cat) => cat.id === selectedCategory) > 0
+                ? categories[
+                    categories.findIndex((cat) => cat.id === selectedCategory) -
+                      1
+                  ]?.name
+                : ""}
+            </span>
+          </button>
 
-        <div className="productos-grid">
-          {filteredProducts.map((product) => (
-            <div
-              className="producto-card"
-              key={product.id}
-              onClick={() => addToCart(product)}
+          <div className="categorias-container">
+            {categories.map((category) => (
+              <div
+                key={category.id}
+                className={`categoria-card ${
+                  selectedCategory === category.id ? "selected" : ""
+                }`}
+                style={{ backgroundColor: category.color }}
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                <h3>{category.name}</h3>
+                <span>{category.items} productos</span>
+              </div>
+            ))}
+          </div>
+
+          <button
+            className="navigation-arrow right"
+            onClick={navigateToNextCategory}
+            disabled={
+              categories.findIndex((cat) => cat.id === selectedCategory) ===
+              categories.length - 1
+            }
+            title={
+              categories.findIndex((cat) => cat.id === selectedCategory) <
+              categories.length - 1
+                ? `Ir a ${
+                    categories[
+                      categories.findIndex(
+                        (cat) => cat.id === selectedCategory
+                      ) + 1
+                    ]?.name
+                  }`
+                : "No hay categoría siguiente"
+            }
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <div className="producto-image"></div>
-              <h4>{product.name}</h4>
-              <p className="producto-price">${product.price.toFixed(2)}</p>
-            </div>
-          ))}
+              <path
+                d="M9 6L15 12L9 18"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="category-name">
+              {categories.findIndex((cat) => cat.id === selectedCategory) <
+              categories.length - 1
+                ? categories[
+                    categories.findIndex((cat) => cat.id === selectedCategory) +
+                      1
+                  ]?.name
+                : ""}
+            </span>
+          </button>
+        </div>{" "}
+        <div className="productos-grid-container">
+          {" "}
+          <div className="productos-grid">
+            {filteredProducts.map((product) => (
+              <div
+                className="producto-card"
+                key={product.id}
+                onClick={() => addToCart(product)}
+              >
+                <div className="producto-image"></div>
+                <h4>{product.name}</h4>
+                <p className="producto-price">${product.price.toFixed(2)}</p>
+              </div>
+            ))}
+          </div>{" "}
         </div>
       </div>
 

@@ -2,6 +2,19 @@
 @use "../styles/mixins" as *;
 @use "sass:color";
 
+// Animación para transiciones suaves
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .productos-container {
     @include flex(row, flex-start, stretch, nowrap);
     min-height: 100vh;
@@ -23,7 +36,7 @@
         }
 
         &__header {
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
 
             h2 {
                 color: white;
@@ -35,7 +48,131 @@
                     font-size: 3rem;
                 }
             }
-        }        // Contenedor de categorías
+        }
+
+        // Navegación de categorías con flechas
+        .categorias-navigation {
+            @include flex(column, center, center, nowrap);
+            margin-bottom: 1.5rem;
+        }
+
+        // Contenedor de navegación de categorías con flechas
+        .categorias-navigation-container {
+            @include flex(row, center, center, nowrap);
+            position: relative;
+            margin: 2rem 0;
+            width: 100%;
+
+            .navigation-arrow {
+                width: 4.5rem;
+                height: 4.5rem;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.1);
+                border: none;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 10;
+                flex-shrink: 0;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: translateY(-50%) scale(1.15);
+                    box-shadow: 0 0 1.5rem rgba(255, 255, 255, 0.3);
+                }
+
+                &:active {
+                    transform: translateY(-50%) scale(0.95);
+                    background: rgba(255, 255, 255, 0.15);
+                    box-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.15);
+                }
+
+                &.left {
+                    left: 15%;
+
+                    @include respond-to(md) {
+                        left: 0;
+                    }
+                }
+
+                &.right {
+                    right: 15%;
+
+                    @include respond-to(md) {
+                        right: 0;
+                    }
+                }
+
+                &:disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.1);
+                        transform: translateY(-50%);
+                        box-shadow: none;
+                    }
+
+                    .category-name {
+                        display: none;
+                    }
+                }
+
+                .category-name {
+                    position: absolute;
+                    font-size: 1.2rem;
+                    white-space: nowrap;
+                    color: rgba(255, 255, 255, 0.8);
+                    transition: all 0.3s ease;
+                    opacity: 0;
+                    background: rgba(0, 0, 0, 0.6);
+                    padding: 0.5rem 1rem;
+                    border-radius: 0.5rem;
+                    pointer-events: none;
+                }
+
+                &.left .category-name {
+                    right: calc(100% + 1rem);
+                    transform: translateX(1rem);
+                }
+
+                &.right .category-name {
+                    left: calc(100% + 1rem);
+                    transform: translateX(-1rem);
+                }
+
+                &:hover {
+                    .category-name {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+
+                @include respond-to(sm) {
+                    width: 3.5rem;
+                    height: 3.5rem;
+                }
+
+                @include respond-to(xs) {
+                    width: 3rem;
+                    height: 3rem;
+                    background: rgba(255, 255, 255, 0.2);
+                }
+            }
+
+            .categorias-container {
+                flex-grow: 1;
+                margin: 0 5rem;
+            }
+        }
+
+        // Contenedor de categorías
         .categorias-container {
             @include flex(row, center, center, wrap);
             gap: 2.5rem;
@@ -61,7 +198,9 @@
 
                 @include respond-to(md) {
                     min-width: 10rem;
-                }                h3 {
+                }
+
+                h3 {
                     margin: 0 0 0.8rem 0;
                     font-size: 1.8rem;
                     font-weight: $bold;
@@ -72,7 +211,9 @@
                     opacity: 0.9;
                     display: block;
                     margin-top: 0.5rem;
-                }                &:hover {
+                }
+
+                &:hover {
                     transform: translateY(-0.7rem);
                     box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.2);
                 }
@@ -84,9 +225,122 @@
             }
         }
 
+        // Contenedor para el grid y las flechas de navegación
+        .productos-grid-container {
+            @include flex(row, center, center, nowrap);
+            position: relative;
+            width: 100%;
+            margin: 2rem 0;
+
+            .navigation-arrow {
+                width: 4.5rem;
+                height: 4.5rem;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.1);
+                border: none;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 10;
+                flex-shrink: 0;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+
+                .category-name {
+                    position: absolute;
+                    font-size: 1.2rem;
+                    white-space: nowrap;
+                    color: rgba(255, 255, 255, 0.8);
+                    transition: all 0.3s ease;
+                    opacity: 0;
+                    background: rgba(0, 0, 0, 0.6);
+                    padding: 0.5rem 1rem;
+                    border-radius: 0.5rem;
+                    pointer-events: none;
+                }
+
+                &.left .category-name {
+                    right: calc(100% + 1rem);
+                    transform: translateX(1rem);
+                }
+
+                &.right .category-name {
+                    left: calc(100% + 1rem);
+                    transform: translateX(-1rem);
+                }
+
+                &:hover {
+                    .category-name {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: scale(1.15);
+                    box-shadow: 0 0 1.5rem rgba(255, 255, 255, 0.3);
+                }
+
+                &:active {
+                    transform: scale(0.95);
+                    background: rgba(255, 255, 255, 0.15);
+                    box-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.15);
+                }
+
+                &.left {
+                    left: -2rem;
+                }
+
+                &.right {
+                    right: -2rem;
+                }
+
+                &:disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.1);
+                        transform: none;
+                        box-shadow: none;
+                    }
+
+                    .category-name {
+                        display: none;
+                    }
+                }
+
+                @include respond-to(sm) {
+                    width: 3.5rem;
+                    height: 3.5rem;
+
+                    &.left {
+                        left: -1rem;
+                    }
+
+                    &.right {
+                        right: -1rem;
+                    }
+                }
+
+                @include respond-to(xs) {
+                    width: 3rem;
+                    height: 3rem;
+                    background: rgba(255, 255, 255, 0.2);
+                }
+            }
+        }
+
         // Grid de productos
         .productos-grid {
             @include grid(3, 2rem);
+            animation: fadeIn 0.5s ease-in-out;
+            flex-grow: 1;
 
             @include respond-to(lg) {
                 @include grid(2, 1.5rem);
@@ -161,7 +415,7 @@
 
         .carrito-tabs {
             @include flex(row, flex-start, center);
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 0.1rem solid #e0e0e0;
             margin-bottom: 2rem;
 
             .carrito-tab {
@@ -177,12 +431,12 @@
                     &::after {
                         content: '';
                         position: absolute;
-                        bottom: -1px;
+                        bottom: -0.1rem;
                         left: 0;
                         width: 100%;
-                        height: 3px;
+                        height: 0.3rem;
                         background-color: $color-dga-blue;
-                        border-radius: 3px 3px 0 0;
+                        border-radius: 0.3rem 0.3rem 0 0;
                     }
                 }
             }
@@ -202,7 +456,7 @@
             .carrito-item {
                 @include flex(row, space-between, center);
                 padding: 1rem 0;
-                border-bottom: 1px solid #f0f0f0;
+                border-bottom: 0.1rem solid #f0f0f0;
 
                 .item-info {
                     @include flex(column, flex-start, flex-start);
@@ -241,7 +495,7 @@
 
         .carrito-summary {
             padding-top: 1.5rem;
-            border-top: 1px solid #e0e0e0;
+            border-top: 0.1rem solid #e0e0e0;
 
             .summary-row {
                 @include flex(row, space-between, center);

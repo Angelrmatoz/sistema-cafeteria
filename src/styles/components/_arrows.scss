@@ -1,0 +1,103 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+@use "sass:color";
+
+.navigation-arrows {
+    @include flex(row, center, center, nowrap);
+    gap: 2rem;
+    margin: 1rem 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 3rem;
+    padding: 0.8rem 1.5rem;
+
+    .arrow-btn {
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 50%;
+        background: white;
+        border: none;
+        box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: $color-dga-blue;
+        position: relative;
+
+        &:hover {
+            transform: translateY(-0.3rem);
+            box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
+            background: color.adjust(white, $lightness: -5%);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.1);
+        }
+
+        &.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+
+            &:hover {
+                transform: none;
+                box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+                background: white;
+            }
+        }
+
+        svg {
+            width: 2.4rem;
+            height: 2.4rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .category-name {
+            position: absolute;
+            bottom: -2.5rem;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-0.5rem);
+        }
+
+        &:hover {
+            .category-name {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        // Para pantallas mayores a md (que es equivalente a invertir el respond-to)
+        // El respond-to normal define max-width, así que invertimos la lógica
+        // aplicando estilos para pantallas distintas a md
+        @media (min-width: $breakpoint-md) {
+            &.arrow-prev .category-name {
+                right: calc(100% + 1rem);
+                bottom: auto;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+
+                &:hover,
+                &:focus {
+                    opacity: 1;
+                }
+            }
+
+            &.arrow-next .category-name {
+                left: calc(100% + 1rem);
+                bottom: auto;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+
+                &:hover,
+                &:focus {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
