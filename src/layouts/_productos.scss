@@ -50,6 +50,12 @@
             }
         }
 
+        .menu__buttons{
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
         // Navegación de categorías con flechas
         .categorias-navigation {
             @include flex(column, center, center, nowrap);

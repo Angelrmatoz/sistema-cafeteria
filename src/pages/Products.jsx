@@ -2,25 +2,16 @@ import { useState } from "react";
 import Button from "../components/Button";
 import Arrows from "../components/Arrows";
 import { useNavigate } from "react-router-dom";
+import { categories } from "../data/categories";
+import { products } from "../data/products";
+import { useFullscreen } from "../hooks/useFullscreen";
 
 const Products = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
 
-  // Categorías de productos
-  const categories = [
-    { id: 1, name: "Desayunos", color: "#003366", items: 2 },
-    { id: 2, name: "Almuerzos", color: "#8cc63f", items: 1 },
-    { id: 3, name: "Bebidas", color: "#0071bc", items: 2 },
-  ]; // Productos de ejemplo
-  const products = [
-    { id: 1, name: "Plato del día", price: 259.0, category: 2 },
-    { id: 5, name: "Jugo", price: 50.0, category: 3 },
-    { id: 6, name: "Refresco", price: 60.0, category: 3 },
-    { id: 7, name: "Sandwich", price: 100.0, category: 1 },
-    { id: 8, name: "Empanada", price: 70.0, category: 1 },
-  ];
   // Filtramos los productos por categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState(1);
   const filteredProducts = products.filter(
@@ -91,16 +82,19 @@ const Products = () => {
       <div className="productos-sidebar">
         {" "}
         <div className="productos-sidebar__header">
-          <div>
+          {" "}
+          <div className="menu__buttons">
             <Button
-              variant="primary"
+              variant="danger"
               type="button"
               onClick={() => navigate("/home")}
             >
               Volver
             </Button>
-            <Button variant="primary" type="button" onClick={() => document.documentElement.requestFullscreen()}>
-              Fullscreen
+            <Button variant="primary" type="button" onClick={toggleFullscreen}>
+              {isFullscreen
+                ? "ESC"
+                : "Fullscreen"}
             </Button>
           </div>
           <h2>Menú</h2>{" "}
