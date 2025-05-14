@@ -62,38 +62,12 @@
                 flex-direction: column;
             }
 
-            .login__button {
+            button {
                 flex: 1;
-                border-radius: 1rem;
-                padding: 1rem 2rem;
-                font-size: 1.4rem;
-                font-weight: bold;
-                border: none;
-                cursor: pointer;
-                transition: all 0.3s ease-in-out;
+                font-size: 1.2rem;
 
                 @include respond-to(sm) {
                     width: 50%;
-                }
-
-                &--primary {
-                    background-color: $color-dga-blue;
-                    color: white;
-
-                    &:hover {
-                        padding: 1.7rem;
-                        transition: all 0.3s ease-in-out;
-                    }
-                }
-
-                &--secondary {
-                    background-color: $color-dga-green;
-                    color: white;
-
-                    &:hover {
-                        padding: 1.7rem;
-                        transition: all 0.3s ease-in-out;
-                    }
                 }
             }
         }

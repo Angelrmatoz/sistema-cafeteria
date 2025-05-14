@@ -72,13 +72,13 @@ const Register = () => {
 
           <div className="login__buttons">
             <Button
-              className="login__button login__button--primary"
+              variant="primary"
               type="submit"
             >
               Registrarse
             </Button>
             <Button
-              className="login__button login__button--secondary"
+              variant="tertiary"
               type="button"
               onClick={() => navigate("/")}
             >

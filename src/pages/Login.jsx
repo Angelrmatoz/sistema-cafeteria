@@ -64,7 +64,6 @@ const Login = () => {
               required
             />
           </div>
-
           <div>
             <label className="label label__password" htmlFor="password">
               Contraseña
@@ -79,20 +78,15 @@ const Login = () => {
               required
             />
           </div>
-
           {error && (
             <div style={{ color: "red", marginBottom: "1rem" }}>{error}</div>
-          )}
-
+          )}{" "}
           <div className="login__buttons">
-            <Button
-              className="login__button login__button--primary"
-              type="submit"
-            >
-              Iniciar sesion
+            <Button variant="primary" type="submit">
+              Iniciar sesión
             </Button>
             <Button
-              className="login__button login__button--secondary"
+              variant="secondary"
               type="button"
               onClick={() => navigate("/register")}
             >

@@ -5,6 +5,10 @@
 @forward './global.scss';
 
 
+// Components
+@forward './components/_buttons.scss';
+@forward './components/_arrows.scss';
+
 // Layouts
 @forward '../layouts/_login.scss';
 @forward '../layouts/_home.scss';

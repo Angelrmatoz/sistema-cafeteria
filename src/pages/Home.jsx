@@ -17,7 +17,6 @@ const Home = () => {
           />
           <h1>Sistema de Cafetería DGA</h1>
         </div>
-
         <div className="home-options">
           <div className="option-card" onClick={() => navigate("/products")}>
             <div className="option-icon">🍽️</div>
@@ -29,14 +28,15 @@ const Home = () => {
             <h2>Inventario</h2>
             <p>Consulta el inventario de productos</p>
           </div>{" "}
-        </div>
-
+        </div>{" "}
         <Button
-          className="logout-button"
+          variant="danger"
+          size="lg"
           onClick={() => {
             logout();
             navigate("/");
           }}
+          className="logout-button"
         >
           Cerrar sesión
         </Button>

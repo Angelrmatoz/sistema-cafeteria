@@ -1,0 +1,202 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+@use "sass:color";
+
+// Estilos base para todos los botones
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    border-radius: 0.8rem;
+    font-family: $font-family-kanchenjunga;
+    font-size: 1.6rem;
+    font-weight: $semibold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-0.3rem);
+        box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+
+        &:hover {
+            transform: none;
+            box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+// Botón primario (azul DGA)
+.btn-primary {
+    @extend .btn;
+    background-color: $color-dga-blue;
+    color: white;
+
+    &:hover {
+        background-color: color.adjust($color-dga-blue, $lightness: 5%);
+    }
+
+    &:active {
+        background-color: color.adjust($color-dga-blue, $lightness: -5%);
+    }
+}
+
+// Botón secundario (azul DGA claro)
+.btn-secondary {
+    @extend .btn;
+    background-color: $color-dga-blue-light;
+    color: white;
+
+    &:hover {
+        background-color: color.adjust($color-dga-blue-light, $lightness: 5%);
+    }
+
+    &:active {
+        background-color: color.adjust($color-dga-blue-light, $lightness: -5%);
+    }
+}
+
+// Botón terciario (verde DGA)
+.btn-tertiary {
+    @extend .btn;
+    background-color: $color-dga-green;
+    color: #fff;
+
+    &:hover {
+        background-color: color.adjust($color-dga-green, $lightness: 5%);
+    }
+
+    &:active {
+        background-color: color.adjust($color-dga-green, $lightness: -5%);
+    }
+}
+
+// Botón outline
+.btn-outline {
+    @extend .btn;
+    background-color: transparent;
+    border: 0.2rem solid $color-dga-blue;
+    color: $color-dga-blue;
+
+    &:hover {
+        background-color: rgba($color-dga-blue, 0.1);
+    }
+
+    &:active {
+        background-color: rgba($color-dga-blue, 0.2);
+    }
+}
+
+// Botón transparente
+.btn-ghost {
+    @extend .btn;
+    background-color: transparent;
+    box-shadow: none;
+    color: $color-dga-blue;
+    padding: 0.8rem 1.6rem;
+
+    &:hover {
+        background-color: rgba($color-dga-blue, 0.05);
+        box-shadow: none;
+    }
+
+    &:active {
+        background-color: rgba($color-dga-blue, 0.1);
+    }
+}
+
+// Tamaños de botones
+.btn-sm {
+    padding: 0.6rem 1.2rem;
+    font-size: 1.4rem;
+}
+
+.btn-lg {
+    padding: 1.2rem 2.4rem;
+    font-size: 1.8rem;
+}
+
+// Botón con icono
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    svg,
+    img,
+    i {
+        width: 1.8rem;
+        height: 1.8rem;
+    }
+}
+
+// Botón circular (solo icono)
+.btn-circle {
+    @extend .btn;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0;
+    border-radius: 50%;
+
+    svg,
+    img,
+    i {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+// Botón de peligro (rojo)
+.btn-danger {
+    @extend .btn;
+    background-color: #e74c3c;
+    color: white;
+
+    &:hover {
+        background-color: color.adjust(#e74c3c, $lightness: 5%);
+    }
+
+    &:active {
+        background-color: color.adjust(#e74c3c, $lightness: -5%);
+    }
+}
+
+// Animación de carga para botones
+.btn-loading {
+    position: relative;
+    color: transparent;
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 1.6rem;
+        height: 1.6rem;
+        border: 0.2rem solid white;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 0.8s linear infinite;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

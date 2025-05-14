@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Button from "../components/Button";
 import Arrows from "../components/Arrows";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
+  const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -89,7 +91,18 @@ const Products = () => {
       <div className="productos-sidebar">
         {" "}
         <div className="productos-sidebar__header">
-          <Button className=""></Button>
+          <div>
+            <Button
+              variant="primary"
+              type="button"
+              onClick={() => navigate("/home")}
+            >
+              Volver
+            </Button>
+            <Button variant="primary" type="button" onClick={() => document.documentElement.requestFullscreen()}>
+              Fullscreen
+            </Button>
+          </div>
           <h2>Menú</h2>{" "}
         </div>{" "}
         <div className="categorias-navigation-container">
@@ -158,13 +171,11 @@ const Products = () => {
 
       <div className="carrito-container">
         <h2 className="carrito-title">Cuenta</h2>
-
         {/* <div className="carrito-tabs">
           <span className="carrito-tab active">Cuenta</span>
           <span className="carrito-tab">Acciones</span>
           <span className="carrito-tab">Cliente</span>
         </div> */}
-
         <div className="carrito-items">
           {cart.length === 0 ? (
             <p className="empty-cart">No hay productos en el carrito</p>
@@ -188,7 +199,6 @@ const Products = () => {
             ))
           )}
         </div>
-
         <div className="carrito-summary">
           <div className="summary-row">
             <span>Subtotal</span>
@@ -202,12 +212,13 @@ const Products = () => {
             <span>Total</span>
             <span>RD${(total + total * 0.07).toFixed(2)}</span>
           </div>
-        </div>
-
+        </div>{" "}
         <Button
-          className="pagar-button"
+          variant="tertiary"
+          size="lg"
           onClick={handlePayment}
           disabled={cart.length === 0}
+          className="pagar-button"
         >
           Pagar
         </Button>
