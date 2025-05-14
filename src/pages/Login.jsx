@@ -1,17 +1,25 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Button from "../components/Button.jsx";
-
-const users = [
-  { username: "Admin", password: "1234", role: "admin" },
-  { username: "cajero", password: "1234", role: "cajero" },
-];
+import { useAuth } from "../context/useAuth";
+import { users } from "../data/users.js";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isAuthenticated } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // Redireccionar si ya está autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Redirigir al usuario a la página a la que intentaba acceder, o a /home como fallback
+      const destination = location.state?.from?.pathname || "/home";
+      navigate(destination, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +28,8 @@ const Login = () => {
     );
     if (user) {
       setError("");
-      // Aquí podrías guardar el rol en localStorage o contexto si lo necesitas
+      // Login con el contexto de autenticación
+      login({ username: user.username, role: user.role });
       navigate("/home");
     } else {
       setError("Usuario o contraseña incorrectos");

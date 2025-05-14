@@ -89,6 +89,7 @@ const Products = () => {
       <div className="productos-sidebar">
         {" "}
         <div className="productos-sidebar__header">
+          <Button className=""></Button>
           <h2>Menú</h2>{" "}
         </div>{" "}
         <div className="categorias-navigation-container">
