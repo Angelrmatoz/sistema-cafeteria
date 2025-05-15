@@ -199,7 +199,7 @@ const Products = () => {
             <span>RD${total.toFixed(2)}</span>
           </div>
           <div className="summary-row">
-            <span>Impuestos</span>
+            <span>ITBIS</span>
             <span>RD${(total * 0.18).toFixed(2)}</span>
           </div>
           <div className="summary-row total">
