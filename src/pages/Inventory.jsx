@@ -14,9 +14,8 @@ const Inventory = () => {
   const navigate = useNavigate();
   const [inventory, setInventory] = useState([]);
   const [categories, setCategories] = useState(defaultCategories);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState("add"); 
+  const [modalMode, setModalMode] = useState("add");
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -63,11 +62,9 @@ const Inventory = () => {
     const category = categories.find((cat) => cat.id === categoryId);
     return category ? category.name : "Sin categoría";
   };
-
   // Funciones para manejar las acciones
   const handleAddProduct = () => {
     setModalMode("add");
-    setSelectedProduct(null);
     setFormErrors({});
     setFormData({
       id: generateProductId(inventory).toString(),
@@ -81,7 +78,6 @@ const Inventory = () => {
 
   const handleEditProduct = (product) => {
     setModalMode("edit");
-    setSelectedProduct(product);
     setFormErrors({});
     setFormData({
       id: product.id,
@@ -135,11 +131,8 @@ const Inventory = () => {
       setInventory((prev) =>
         prev.map((product) => (product.id === formData.id ? formData : product))
       );
-    }
-
-    // Cerrar modal y limpiar formulario
+    } // Cerrar modal y limpiar formulario
     setShowModal(false);
-    setSelectedProduct(null);
   };
 
   // Filtrar productos por categoría y término de búsqueda
