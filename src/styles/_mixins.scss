@@ -1,4 +1,4 @@
-@use "./variables" as *; // Importar variables
+@use "./variables" as *;
 
 // Mixin para media queries
 @mixin respond-to($breakpoint) {
@@ -13,7 +13,7 @@
             @content;
         }
     }
-
+    
     @else if $breakpoint ==md {
         @media (max-width: 1024px) {
             @content;
@@ -28,6 +28,39 @@
 
     @else if $breakpoint ==xl {
         @media (max-width: 1440px) {
+            @content;
+        }
+    }
+}
+
+// Mixin para media queries con min-width (mobile-first approach)
+@mixin respond-to-min($breakpoint) {
+    @if $breakpoint ==xs {
+        @media (min-width: 480px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==sm {
+        @media (min-width: 768px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (min-width: 1024px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (min-width: 1200px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (min-width: 1440px) {
             @content;
         }
     }

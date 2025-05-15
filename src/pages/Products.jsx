@@ -85,16 +85,20 @@ const Products = () => {
           {" "}
           <div className="menu__buttons">
             <Button
+              className="menu__buttons--primary"
               variant="danger"
               type="button"
               onClick={() => navigate("/home")}
             >
               Volver
             </Button>
-            <Button variant="primary" type="button" onClick={toggleFullscreen}>
-              {isFullscreen
-                ? "ESC"
-                : "Fullscreen"}
+            <Button
+              className="menu__buttons--secondary"
+              variant="primary"
+              type="button"
+              onClick={toggleFullscreen}
+            >
+              {isFullscreen ? "ESC" : "Fullscreen"}
             </Button>
           </div>
           <h2>Menú</h2>{" "}

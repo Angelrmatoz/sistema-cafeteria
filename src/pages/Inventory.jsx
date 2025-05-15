@@ -159,10 +159,11 @@ const Inventory = () => {
             Volver
           </Button>
           <h1>Inventario de Productos</h1>
+          
+          <Button variant="tertiary" type="button" onClick={handleAddProduct}>
+            Agregar Producto
+          </Button>
         </div>
-        <Button variant="tertiary" type="button" onClick={handleAddProduct}>
-          Agregar Producto
-        </Button>
       </div>
 
       <div className="inventory-filters">
