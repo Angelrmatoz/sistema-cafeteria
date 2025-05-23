@@ -303,6 +303,47 @@
             }
         }
 
+        .user-id-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.8rem;
+            border: 2px solid #e0e0e0;
+
+            .user-id-label {
+                display: block;
+                font-weight: $semibold;
+                font-size: 1.4rem;
+                color: $color-dga-blue;
+                margin-bottom: 0.8rem;
+            }
+
+            .user-id-input {
+                width: 100%;
+                padding: 1.2rem;
+                border: 2px solid #ddd;
+                border-radius: 0.6rem;
+                font-size: 1.4rem;
+                background-color: white;
+                color: #333;
+                transition: all 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: $color-dga-blue;
+                    box-shadow: 0 0 0 3px rgba($color-dga-blue, 0.2);
+                }
+
+                &::placeholder {
+                    color: #888;
+                }
+
+                &:hover {
+                    border-color: #999;
+                }
+            }
+        }
+
         .carrito-summary {
             padding-top: 1.5rem;
             border-top: 0.1rem solid #e0e0e0;

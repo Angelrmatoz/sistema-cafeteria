@@ -10,6 +10,7 @@ const Products = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [userId, setUserId] = useState(""); // Nuevo estado para ID de usuario
   const { isFullscreen, toggleFullscreen } = useFullscreen();
 
   // Filtramos los productos por categoría seleccionada
@@ -69,12 +70,22 @@ const Products = () => {
     );
     setTotal(newTotal);
   };
-
   // Procesar pago
   const handlePayment = () => {
-    alert(`Pago procesado: $${total.toFixed(2)}`);
+    if (!userId.trim()) {
+      alert("Por favor, ingrese el ID del usuario");
+      return;
+    }
+
+    const totalWithTax = total + total * 0.18;
+    alert(
+      `Pago procesado para Usuario ID: ${userId}\nTotal: RD$${totalWithTax.toFixed(
+        2
+      )}`
+    );
     setCart([]);
     setTotal(0);
+    setUserId("");
   };
 
   return (
@@ -195,7 +206,20 @@ const Products = () => {
                 </button>
               </div>
             ))
-          )}
+          )}{" "}
+        </div>
+        <div className="user-id-section">
+          <label htmlFor="userId" className="user-id-label">
+            ID del Usuario:
+          </label>
+          <input
+            type="text"
+            id="userId"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            placeholder="Ingrese el ID del usuario"
+            className="user-id-input"
+          />
         </div>
         <div className="carrito-summary">
           <div className="summary-row">
@@ -215,7 +239,7 @@ const Products = () => {
           variant="tertiary"
           size="lg"
           onClick={handlePayment}
-          disabled={cart.length === 0}
+          disabled={cart.length === 0 || !userId.trim()}
           className="pagar-button"
         >
           Pagar
