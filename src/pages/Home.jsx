@@ -24,11 +24,16 @@ const Home = () => {
             <p>Gestiona los productos y realiza ventas</p>
           </div>
           <div className="option-card" onClick={() => navigate("/inventory")}>
-            <div className="option-icon">📋</div>
+            <div className="option-icon">📦</div>
             <h2>Inventario</h2>
             <p>Consulta el inventario de productos</p>
-          </div>{" "}
-        </div>{" "}
+          </div>
+          <div className="option-card" onClick={() => navigate("/history")}>
+            <div className="option-icon">📜</div>
+            <h2>Historial</h2>
+            <p>Consulta el historial de ventas</p>
+          </div>
+        </div>
         <Button
           variant="danger"
           size="lg"

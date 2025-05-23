@@ -4,7 +4,7 @@
 
 .background__home {
     background-color: $color-dga-dark;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
     padding: 2rem;
     display: flex;
@@ -16,7 +16,7 @@
         background-color: white;
         border-radius: 2rem;
         padding: 3rem;
-        max-width: 80rem;
+        max-width: 75rem;
         width: 100%;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
 
@@ -32,7 +32,7 @@
             }
 
             h1 {
-                color: $color-dga-blue;
+                color: black;
                 font-size: 3rem;
                 margin: 0;
             }
@@ -41,7 +41,7 @@
         .home-options {
             @include flex(row, center, stretch, wrap);
             gap: 3rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             width: 100%;
 
             .option-card {
@@ -84,15 +84,68 @@
         }
     }
 
-    @media (max-width: 768px) {
+    // Media query para dispositivos extra pequeños
+    @include respond-to(xs) {
+        padding: 0.8rem;
+
+        .home-container {
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+
+            .home-header {
+                margin-bottom: 2rem;
+
+                .home-logo {
+                    width: 10rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                h1 {
+                    font-size: 2rem;
+                }
+            }
+
+            .home-options .option-card {
+                padding: 2rem 1.5rem;
+
+                .option-icon {
+                    font-size: 4rem;
+                    margin-bottom: 1rem;
+                }
+
+                h2 {
+                    font-size: 1.8rem;
+                }
+            }
+        }
+    }
+
+    @include respond-to(sm) {
         padding: 1rem;
 
         .home-container {
             padding: 2rem;
-        }
 
-        .home-options .option-card {
-            min-width: 100%;
+            .home-options {
+                flex-direction: column;
+                gap: 2rem;
+
+                .option-card {
+                    min-width: 100%;
+                    width: 100%;
+                    max-width: 45rem;
+
+                    &:hover {
+                        transform: translateY(-0.5rem);
+                    }
+                }
+            }
+
+            .home-header {
+                h1 {
+                    font-size: 2.4rem;
+                }
+            }
         }
     }
 }
