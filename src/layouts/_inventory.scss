@@ -142,7 +142,7 @@
 
     .inventory-table-container {
         width: 100%;
-        overflow: hidden;
+        overflow-x: auto;
         border-radius: 1rem;
         background-color: white;
         padding: 0.5rem;

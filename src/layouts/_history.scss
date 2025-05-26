@@ -43,11 +43,11 @@
                 }
             }
         }
+    }
 
-        &__buttons {
-            display: flex;
-            gap: 2rem;
-        }
+    &__buttons {
+        display: flex;
+        gap: 1rem;
     }
 
     &__filters {
@@ -186,6 +186,7 @@
         overflow: hidden;
         box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
         flex: 1;
+        padding: 1rem;	
     }
 
     &__content-header {
@@ -193,6 +194,7 @@
         color: white;
         padding: 1.5rem 2rem;
         @include flex(row, space-between, center);
+        border-radius: 1rem 1rem 0 0;
     }
 
     &__content-title {
