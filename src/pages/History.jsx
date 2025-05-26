@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../layouts/_history.scss";
+import sampleTransactions from "../data/transactions";
+import { useNavigate } from "react-router-dom";
+import { useFullscreen } from "../hooks/useFullscreen";
+import Button from "../components/Button";
 
 const History = () => {
+  const navigate = useNavigate();
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [filters, setFilters] = useState({
@@ -23,69 +29,8 @@ const History = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Simulación de datos de transacciones
+  // Cargar datos de transacciones desde el archivo externo
   useEffect(() => {
-    const sampleTransactions = [
-      {
-        id: "TXN-001",
-        userId: "USR-12345",
-        date: "2024-01-15",
-        time: "14:30:00",
-        amount: 45.5,
-        status: "completed",
-        products: [
-          { name: "Café Americano", quantity: 2, price: 15.0 },
-          { name: "Sandwich Club", quantity: 1, price: 15.5 },
-        ],
-      },
-      {
-        id: "TXN-002",
-        userId: "USR-67890",
-        date: "2024-01-15",
-        time: "15:45:00",
-        amount: 28.0,
-        status: "completed",
-        products: [
-          { name: "Café Latte", quantity: 1, price: 18.0 },
-          { name: "Brownie", quantity: 1, price: 10.0 },
-        ],
-      },
-      {
-        id: "TXN-003",
-        userId: "USR-11111",
-        date: "2024-01-14",
-        time: "09:15:00",
-        amount: 22.5,
-        status: "completed",
-        products: [
-          { name: "Café Americano", quantity: 1, price: 15.0 },
-          { name: "Croissant", quantity: 1, price: 7.5 },
-        ],
-      },
-      {
-        id: "TXN-004",
-        userId: "USR-22222",
-        date: "2024-01-14",
-        time: "11:20:00",
-        amount: 0.0,
-        status: "failed",
-        products: [{ name: "Café Cappuccino", quantity: 1, price: 20.0 }],
-      },
-      {
-        id: "TXN-005",
-        userId: "USR-12345",
-        date: "2024-01-13",
-        time: "16:10:00",
-        amount: 35.0,
-        status: "completed",
-        products: [
-          { name: "Café Mocha", quantity: 1, price: 22.0 },
-          { name: "Muffin", quantity: 1, price: 13.0 },
-        ],
-      },
-    ];
-
     setTransactions(sampleTransactions);
     setFilteredTransactions(sampleTransactions);
     calculateStats(sampleTransactions);
@@ -245,57 +190,67 @@ const History = () => {
       </span>
     );
   };
-
   return (
-    <div className="history-container">
+    <div className="history">
       {/* Header */}
-      <div className="history-header">
-        <div className="header-content">
-          <h1>Historial de Ventas</h1>
-          <div className="export-buttons">
-            <button
-              className="export-pdf"
-              onClick={exportToPDF}
-              disabled={filteredTransactions.length === 0}
+      <div className="history__header">
+        <div className="history__header-content">
+          <h1 className="history__title">Historial de Ventas</h1>{" "}
+          <div className="history__buttons">
+            <Button
+              className="history__button history__button--back"
+              variant="danger"
+              type="button"
+              onClick={() => navigate("/home")}
             >
-              📄 Exportar PDF
-            </button>
-            <button
-              className="export-excel"
-              onClick={exportToExcel}
-              disabled={filteredTransactions.length === 0}
+              Volver
+            </Button>
+            <Button
+              className="history__button history__button--fullscreen"
+              variant="primary"
+              type="button"
+              onClick={toggleFullscreen}
             >
-              📊 Exportar Excel
-            </button>
+              {isFullscreen ? "ESC" : "Fullscreen"}
+            </Button>
           </div>
         </div>
-      </div>
-
+      </div>{" "}
       {/* Filtros */}
-      <div className="history-filters">
-        <div className="filters-title">Filtros de Búsqueda</div>
-        <div className="filters-grid">
-          <div className="filter-group">
-            <label htmlFor="startDate">Fecha Inicio</label>
+      <div className="history__filters">
+        <div className="history__filters-title">Filtros de Búsqueda</div>
+        <div className="history__filters-grid">
+          <div className="history__filter-group">
+            {" "}
+            <label className="history__filter-label" htmlFor="startDate">
+              Fecha Inicio
+            </label>
             <input
+              className="history__filter-input"
               type="date"
               id="startDate"
               value={filters.startDate}
               onChange={(e) => handleFilterChange("startDate", e.target.value)}
             />
           </div>
-          <div className="filter-group">
-            <label htmlFor="endDate">Fecha Fin</label>
+          <div className="history__filter-group">
+            <label className="history__filter-label" htmlFor="endDate">
+              Fecha Fin
+            </label>
             <input
+              className="history__filter-input"
               type="date"
               id="endDate"
               value={filters.endDate}
               onChange={(e) => handleFilterChange("endDate", e.target.value)}
             />
           </div>
-          <div className="filter-group">
-            <label htmlFor="userId">ID de Usuario</label>
+          <div className="history__filter-group">
+            <label className="history__filter-label" htmlFor="userId">
+              ID de Usuario
+            </label>
             <input
+              className="history__filter-input"
               type="text"
               id="userId"
               placeholder="Buscar por usuario..."
@@ -303,9 +258,12 @@ const History = () => {
               onChange={(e) => handleFilterChange("userId", e.target.value)}
             />
           </div>
-          <div className="filter-group">
-            <label htmlFor="minAmount">Monto Mínimo</label>
+          <div className="history__filter-group">
+            <label className="history__filter-label" htmlFor="minAmount">
+              Monto Mínimo
+            </label>
             <input
+              className="history__filter-input"
               type="number"
               id="minAmount"
               placeholder="0.00"
@@ -314,9 +272,12 @@ const History = () => {
               onChange={(e) => handleFilterChange("minAmount", e.target.value)}
             />
           </div>
-          <div className="filter-group">
-            <label htmlFor="maxAmount">Monto Máximo</label>
+          <div className="history__filter-group">
+            <label className="history__filter-label" htmlFor="maxAmount">
+              Monto Máximo
+            </label>
             <input
+              className="history__filter-input"
               type="number"
               id="maxAmount"
               placeholder="999.99"
@@ -325,9 +286,12 @@ const History = () => {
               onChange={(e) => handleFilterChange("maxAmount", e.target.value)}
             />
           </div>
-          <div className="filter-group">
-            <label htmlFor="status">Estado</label>
+          <div className="history__filter-group">
+            <label className="history__filter-label" htmlFor="status">
+              Estado
+            </label>
             <select
+              className="history__filter-select"
               id="status"
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
@@ -338,108 +302,123 @@ const History = () => {
               <option value="failed">Fallida</option>
             </select>
           </div>
-          <div className="filter-actions">
-            <button className="apply-filters" onClick={applyFilters}>
+          <div className="history__filter-actions">
+            <button
+              className="history__filter-button history__filter-button--apply"
+              onClick={applyFilters}
+            >
               🔍 Aplicar
             </button>
-            <button className="clear-filters" onClick={clearFilters}>
+            <button
+              className="history__filter-button history__filter-button--clear"
+              onClick={clearFilters}
+            >
               🗑️ Limpiar
             </button>
           </div>
         </div>
       </div>
-
       {/* Estadísticas */}
-      <div className="history-stats">
-        <div className="stat-card">
-          <div className="stat-value sales">{stats.totalSales}</div>
-          <div className="stat-label">Ventas Totales</div>
+      <div className="history__stats">
+        <div className="history__stat-card">
+          <div className="history__stat-value history__stat-value--sales">
+            {stats.totalSales}
+          </div>
+          <div className="history__stat-label">Ventas Totales</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-value revenue">
+        <div className="history__stat-card">
+          <div className="history__stat-value history__stat-value--revenue">
             {formatCurrency(stats.totalRevenue)}
           </div>
-          <div className="stat-label">Ingresos Totales</div>
+          <div className="history__stat-label">Ingresos Totales</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-value customers">{stats.uniqueCustomers}</div>
-          <div className="stat-label">Clientes Únicos</div>
+        <div className="history__stat-card">
+          <div className="history__stat-value history__stat-value--customers">
+            {stats.uniqueCustomers}
+          </div>
+          <div className="history__stat-label">Clientes Únicos</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-value average">
+        <div className="history__stat-card">
+          <div className="history__stat-value history__stat-value--average">
             {formatCurrency(stats.averageTransaction)}
           </div>
-          <div className="stat-label">Promedio por Venta</div>
+          <div className="history__stat-label">Promedio por Venta</div>
         </div>
-      </div>
-
+      </div>{" "}
       {/* Contenido de transacciones */}
-      <div className="history-content">
-        <div className="content-header">
-          <h3>Transacciones</h3>
-          <div className="results-count">
+      <div className="history__content">
+        <div className="history__content-header">
+          <h3 className="history__content-title">Transacciones</h3>
+          <div className="history__results-count">
             {filteredTransactions.length} resultado
             {filteredTransactions.length !== 1 ? "s" : ""}
           </div>
-        </div>
-
+        </div>{" "}
         {isLoading ? (
-          <div className="empty-state">
-            <div className="empty-icon">⏳</div>
-            <div className="empty-title">Cargando...</div>
-            <div className="empty-message">
+          <div className="history__empty-state">
+            <div className="history__empty-icon">⏳</div>
+            <div className="history__empty-title">Cargando...</div>
+            <div className="history__empty-message">
               Por favor espere mientras se procesan los filtros
             </div>
           </div>
         ) : filteredTransactions.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">📋</div>
-            <div className="empty-title">No hay transacciones</div>
-            <div className="empty-message">
+          <div className="history__empty-state">
+            <div className="history__empty-icon">📋</div>
+            <div className="history__empty-title">No hay transacciones</div>
+            <div className="history__empty-message">
               No se encontraron transacciones que coincidan con los filtros
               aplicados
             </div>
           </div>
         ) : (
-          <div className="history-table-container">
-            <table className="history-table">
-              <thead>
+          <div className="history__table-container">
+            <table className="history__table">
+              <thead className="history__table-head">
                 <tr>
-                  <th>ID Transacción</th>
-                  <th>Usuario</th>
-                  <th>Fecha</th>
-                  <th>Hora</th>
-                  <th>Productos</th>
-                  <th>Monto</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
+                  <th className="history__table-header">ID Transacción</th>
+                  <th className="history__table-header">Usuario</th>
+                  <th className="history__table-header">Fecha</th>
+                  <th className="history__table-header">Hora</th>
+                  <th className="history__table-header">Productos</th>
+                  <th className="history__table-header">Monto</th>
+                  <th className="history__table-header">Estado</th>
+                  <th className="history__table-header">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {currentTransactions.map((transaction) => (
-                  <tr key={transaction.id}>
-                    <td className="transaction-id">{transaction.id}</td>
-                    <td className="user-id">{transaction.userId}</td>
-                    <td className="date">{formatDate(transaction.date)}</td>
-                    <td>{formatTime(transaction.time)}</td>
-                    <td>
-                      <div className="products-list">
+                  <tr className="history__table-row" key={transaction.id}>
+                    <td className="history__table-cell history__table-cell--id">
+                      {transaction.id}
+                    </td>
+                    <td className="history__table-cell history__table-cell--user">
+                      {transaction.userId}
+                    </td>
+                    <td className="history__table-cell history__table-cell--date">
+                      {formatDate(transaction.date)}
+                    </td>
+                    <td className="history__table-cell">
+                      {formatTime(transaction.time)}
+                    </td>
+                    <td className="history__table-cell">
+                      <div className="history__products-list">
                         {transaction.products.map((product, index) => (
-                          <span key={index} className="product-item">
+                          <span key={index} className="history__product-item">
                             {product.quantity}x {product.name}
                           </span>
                         ))}
                       </div>
                     </td>
-                    <td className="amount">
+                    <td className="history__table-cell history__table-cell--amount">
                       {formatCurrency(transaction.amount)}
                     </td>
-                    <td className="status">
+                    <td className="history__table-cell history__table-cell--status">
                       {renderStatusBadge(transaction.status)}
                     </td>
-                    <td className="actions-cell">
+                    <td className="history__table-cell history__table-cell--actions">
                       <button
-                        className="view-details-btn"
+                        className="history__view-button"
                         onClick={() => viewTransactionDetails(transaction)}
                       >
                         Ver Detalles
@@ -450,12 +429,12 @@ const History = () => {
               </tbody>
             </table>
           </div>
-        )}
-
+        )}{" "}
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="pagination">
+          <div className="history__pagination">
             <button
+              className="history__pagination-button"
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
             >
@@ -468,7 +447,11 @@ const History = () => {
                 <button
                   key={page}
                   onClick={() => goToPage(page)}
-                  className={currentPage === page ? "active" : ""}
+                  className={`history__pagination-button ${
+                    currentPage === page
+                      ? "history__pagination-button--active"
+                      : ""
+                  }`}
                 >
                   {page}
                 </button>
@@ -476,65 +459,85 @@ const History = () => {
             })}
 
             <button
+              className="history__pagination-button"
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
               Siguiente →
             </button>
 
-            <div className="page-info">
+            <div className="history__pagination-info">
               Página {currentPage} de {totalPages}
             </div>
           </div>
         )}
-      </div>
-
+      </div>{" "}
       {/* Modal de detalles de transacción */}
       {showModal && selectedTransaction && (
-        <div className="transaction-modal" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
+        <div className="history__transaction-modal" onClick={closeModal}>
+          <div
+            className="history__transaction-modal__modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="history__transaction-modal__modal-header">
               <h2>Detalles de Transacción</h2>
-              <button className="close-btn" onClick={closeModal}>
+              <button
+                className="history__transaction-modal__close-button"
+                onClick={closeModal}
+              >
                 ✕
               </button>
             </div>
 
-            <div className="transaction-details">
-              <div className="detail-item">
-                <div className="detail-label">ID de Transacción</div>
-                <div className="detail-value transaction-id">
+            <div className="history__transaction-modal__transaction-details">
+              <div className="history__transaction-modal__detail-item">
+                <div className="history__transaction-modal__detail-label">
+                  ID de Transacción
+                </div>
+                <div className="history__transaction-modal__detail-value history__transaction-modal__detail-value--transaction-id">
                   {selectedTransaction.id}
                 </div>
               </div>
-              <div className="detail-item">
-                <div className="detail-label">Usuario</div>
-                <div className="detail-value">{selectedTransaction.userId}</div>
+              <div className="history__transaction-modal__detail-item">
+                <div className="history__transaction-modal__detail-label">
+                  Usuario
+                </div>
+                <div className="history__transaction-modal__detail-value">
+                  {selectedTransaction.userId}
+                </div>
               </div>
-              <div className="detail-item">
-                <div className="detail-label">Fecha y Hora</div>
-                <div className="detail-value">
+              <div className="history__transaction-modal__detail-item">
+                <div className="history__transaction-modal__detail-label">
+                  Fecha y Hora
+                </div>
+                <div className="history__transaction-modal__detail-value">
                   {formatDate(selectedTransaction.date)} a las{" "}
                   {formatTime(selectedTransaction.time)}
                 </div>
               </div>
-              <div className="detail-item">
-                <div className="detail-label">Estado</div>
-                <div className="detail-value">
+              <div className="history__transaction-modal__detail-item">
+                <div className="history__transaction-modal__detail-label">
+                  Estado
+                </div>
+                <div className="history__transaction-modal__detail-value">
                   {renderStatusBadge(selectedTransaction.status)}
                 </div>
               </div>
-              <div className="detail-item">
-                <div className="detail-label">Total</div>
-                <div className="detail-value amount">
+              <div className="history__transaction-modal__detail-item">
+                <div className="history__transaction-modal__detail-label">
+                  Total
+                </div>
+                <div className="history__transaction-modal__detail-value history__transaction-modal__detail-value--amount">
                   {formatCurrency(selectedTransaction.amount)}
                 </div>
               </div>
             </div>
 
-            <div className="products-detail">
-              <div className="products-title">Productos Comprados</div>
-              <table className="products-table">
+            <div className="history__transaction-modal__products-detail">
+              <div className="history__transaction-modal__products-title">
+                Productos Comprados
+              </div>
+              <table className="history__transaction-modal__products-table">
                 <thead>
                   <tr>
                     <th>Producto</th>
@@ -548,17 +551,19 @@ const History = () => {
                     <tr key={index}>
                       <td>{product.name}</td>
                       <td>{product.quantity}</td>
-                      <td className="price">{formatCurrency(product.price)}</td>
-                      <td className="total">
+                      <td className="history__transaction-modal__detail-value--price">
+                        {formatCurrency(product.price)}
+                      </td>
+                      <td className="history__transaction-modal__detail-value--total">
                         {formatCurrency(product.price * product.quantity)}
                       </td>
                     </tr>
                   ))}
-                  <tr className="total-row">
+                  <tr className="history__transaction-modal__total-row">
                     <td colSpan="3">
                       <strong>TOTAL</strong>
                     </td>
-                    <td className="total">
+                    <td className="history__transaction-modal__detail-value--total">
                       <strong>
                         {formatCurrency(selectedTransaction.amount)}
                       </strong>
@@ -570,6 +575,22 @@ const History = () => {
           </div>
         </div>
       )}
+      <div className="history__export-buttons">
+        <button
+          className="history__export-button history__export-button--pdf"
+          onClick={exportToPDF}
+          disabled={filteredTransactions.length === 0}
+        >
+          📄 Exportar PDF
+        </button>
+        <button
+          className="history__export-button history__export-button--excel"
+          onClick={exportToExcel}
+          disabled={filteredTransactions.length === 0}
+        >
+          📊 Exportar Excel
+        </button>
+      </div>
     </div>
   );
 };

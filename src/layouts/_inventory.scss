@@ -23,6 +23,13 @@
             gap: 1.5rem;
             width: 100%;
 
+            .left-buttons {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                width: 100%;
+            }
+
             h1 {
                 font-family: $font-family-kanchenjunga;
                 font-size: 2.8rem;
@@ -34,8 +41,7 @@
 
             // Disposición de los botones
             button {
-                width: 100%;
-                max-width: 200px;
+                width: auto;
             }
 
             // Cambio a horizontal en pantallas más grandes
@@ -48,6 +54,11 @@
                     left: 50%;
                     transform: translateX(-50%);
                     order: 0;
+                }
+
+                .left-buttons {
+                    justify-content: flex-start;
+                    width: auto;
                 }
 
                 button {

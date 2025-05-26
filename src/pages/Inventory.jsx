@@ -9,9 +9,11 @@ import {
   validateProductData,
 } from "../utils/inventoryHelpers";
 import "../layouts/_inventory.scss";
+import { useFullscreen } from "../hooks/useFullscreen";
 
 const Inventory = () => {
   const navigate = useNavigate();
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
   const [inventory, setInventory] = useState([]);
   const [categories, setCategories] = useState(defaultCategories);
   const [showModal, setShowModal] = useState(false);
@@ -149,23 +151,33 @@ const Inventory = () => {
 
   return (
     <div className="inventory-container">
+      {" "}
       <div className="inventory-header">
         <div className="header-buttons">
-          <Button
-            variant="primary"
-            type="button"
-            onClick={() => navigate("/home")}
-          >
-            Volver
-          </Button>
+          <div className="left-buttons">
+            <Button
+              variant="danger"
+              type="button"
+              onClick={() => navigate("/home")}
+            >
+              Volver
+            </Button>
+            <Button
+              className="menu__buttons--secondary"
+              variant="primary"
+              type="button"
+              onClick={toggleFullscreen}
+            >
+              {isFullscreen ? "ESC" : "Fullscreen"}
+            </Button>
+          </div>
           <h1>Inventario de Productos</h1>
-          
+
           <Button variant="tertiary" type="button" onClick={handleAddProduct}>
             Agregar Producto
           </Button>
         </div>
       </div>
-
       <div className="inventory-filters">
         <div className="search-bar">
           <input
@@ -189,7 +201,6 @@ const Inventory = () => {
           </select>
         </div>
       </div>
-
       {isLoading ? (
         <div className="loading-container">
           <p>Cargando inventario...</p>
@@ -239,7 +250,6 @@ const Inventory = () => {
           </table>
         </div>
       )}
-
       {/* Modal para agregar/editar producto */}
       {showModal && (
         <div className="product-modal">

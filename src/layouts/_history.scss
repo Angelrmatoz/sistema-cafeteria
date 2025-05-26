@@ -2,7 +2,7 @@
 @use "../styles/mixins" as *;
 @use "sass:color";
 
-.history-container {
+.history {
     padding: 2rem;
     background-color: $color-dga-dark;
     min-height: 100vh;
@@ -10,12 +10,12 @@
     flex-direction: column;
     gap: 2rem;
 
-    .history-header {
+    &__header {
         @include flex(row, space-between, center);
         margin-bottom: 2rem;
         position: relative;
 
-        .header-content {
+        .history__header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,52 +31,6 @@
                 order: -1;
             }
 
-            .export-buttons {
-                @include flex(row, center, center, wrap);
-                gap: 1rem;
-
-                button {
-                    padding: 1rem 2rem;
-                    border: none;
-                    border-radius: 0.5rem;
-                    font-size: 1.4rem;
-                    font-weight: $semibold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    min-width: 8.75rem;
-
-                    &.export-pdf {
-                        background-color: #e74c3c;
-                        color: white;
-
-                        &:hover {
-                            background-color: #c0392b;
-                            transform: translateY(-0.125rem);
-                        }
-                    }
-
-                    &.export-excel {
-                        background-color: #27ae60;
-                        color: white;
-
-                        &:hover {
-                            background-color: #229954;
-                            transform: translateY(-0.125rem);
-                        }
-                    }
-
-                    &:disabled {
-                        opacity: 0.6;
-                        cursor: not-allowed;
-                        transform: none;
-
-                        &:hover {
-                            transform: none;
-                        }
-                    }
-                }
-            }
-
             @include respond-to-min(sm) {
                 flex-direction: row;
                 justify-content: space-between;
@@ -87,22 +41,23 @@
                     transform: translateX(-50%);
                     order: 0;
                 }
-
-                .export-buttons {
-                    justify-content: flex-end;
-                }
             }
+        }
+
+        &__buttons {
+            display: flex;
+            gap: 2rem;
         }
     }
 
-    .history-filters {
+    &__filters {
         background-color: white;
         padding: 2rem;
         border-radius: 1rem;
         box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
         margin-bottom: 2rem;
 
-        .filters-title {
+        &-title {
             font-size: 1.8rem;
             font-weight: $semibold;
             color: $color-dga-blue;
@@ -110,365 +65,403 @@
             text-align: center;
         }
 
-        .filters-grid {
+        &-grid {
             @include grid();
             grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr));
             align-items: end;
+        }
+    }
 
-            .filter-group {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
+    &__filter-actions {
+        display: flex;
+        gap: 1rem;
+    }
 
-                label {
-                    font-weight: $semibold;
-                    color: $color-dga-blue;
-                    font-size: 1.4rem;
-                }
+    &__filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 
-                input,
-                select {
-                    padding: 1rem;
-                    border: 0.0625rem solid #ddd;
-                    border-radius: 0.5rem;
-                    font-size: 1.4rem;
-                    transition: border-color 0.3s ease;
+    &__filter-label {
+        font-weight: $semibold;
+        color: $color-dga-blue;
+        font-size: 1.4rem;
+    }
 
-                    &:focus {
-                        outline: none;
-                        border-color: $color-dga-blue;
-                        box-shadow: 0 0 0 0.125rem rgba($color-dga-blue, 0.2);
-                    }
-                }
+    &__filter-input,
+    &__filter-select {
+        padding: 1rem;
+        border: 0.0625rem solid #ddd;
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: $color-dga-blue;
+            box-shadow: 0 0 0 0.125rem rgba($color-dga-blue, 0.2);
+        }
+    }
+
+    &__filter-button {
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: $semibold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1;
+
+        &--apply {
+            background-color: $color-dga-blue;
+            color: white;
+
+            &:hover {
+                background-color: color.adjust($color-dga-blue, $lightness: -10%);
             }
+        }
 
-            .filter-actions {
-                display: flex;
-                gap: 1rem;
+        &--clear {
+            background-color: #95a5a6;
+            color: white;
 
-                button {
-                    padding: 1rem 1.5rem;
-                    border: none;
-                    border-radius: 0.5rem;
-                    font-size: 1.4rem;
-                    font-weight: $semibold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    flex: 1;
-
-                    &.apply-filters {
-                        background-color: $color-dga-blue;
-                        color: white;
-
-                        &:hover {
-                            background-color: color.adjust($color-dga-blue, $lightness: -10%);
-                        }
-                    }
-
-                    &.clear-filters {
-                        background-color: #95a5a6;
-                        color: white;
-
-                        &:hover {
-                            background-color: #7f8c8d;
-                        }
-                    }
-                }
+            &:hover {
+                background-color: #7f8c8d;
             }
         }
     }
 
-    .history-stats {
+    &__stats {
         @include grid();
         grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
         margin-bottom: 2rem;
+    }
 
-        .stat-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
+    &__stat-card {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
 
-            &:hover {
-                transform: translateY(-0.3125rem);
-            }
-
-            .stat-value {
-                font-size: 2.5rem;
-                font-weight: $bold;
-                margin-bottom: 0.5rem;
-
-                &.sales {
-                    color: $color-dga-green;
-                }
-
-                &.revenue {
-                    color: $color-dga-blue;
-                }
-
-                &.customers {
-                    color: #e67e22;
-                }
-
-                &.average {
-                    color: #9b59b6;
-                }
-            }
-
-            .stat-label {
-                font-size: 1.4rem;
-                color: #7f8c8d;
-                font-weight: $medium;
-            }
+        &:hover {
+            transform: translateY(-0.3125rem);
         }
     }
 
-    .history-content {
+    &__stat-value {
+        font-size: 2.5rem;
+        font-weight: $bold;
+        margin-bottom: 0.5rem;
+
+        &--sales {
+            color: $color-dga-green;
+        }
+
+        &--revenue {
+            color: $color-dga-blue;
+        }
+
+        &--customers {
+            color: #e67e22;
+        }
+
+        &--average {
+            color: #9b59b6;
+        }
+    }
+
+    &__stat-label {
+        font-size: 1.4rem;
+        color: #7f8c8d;
+        font-weight: $medium;
+    }
+
+    &__content {
         background-color: white;
         border-radius: 1rem;
         overflow: hidden;
         box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
         flex: 1;
+    }
 
-        .content-header {
-            background-color: $color-dga-blue;
-            color: white;
-            padding: 1.5rem 2rem;
-            @include flex(row, space-between, center);
+    &__content-header {
+        background-color: $color-dga-blue;
+        color: white;
+        padding: 1.5rem 2rem;
+        @include flex(row, space-between, center);
+    }
 
-            h3 {
-                margin: 0;
-                font-size: 1.8rem;
-                font-weight: $semibold;
-            }
+    &__content-title {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: $semibold;
+    }
 
-            .results-count {
-                font-size: 1.4rem;
-                opacity: 0.9;
-            }
+    &__results-count {
+        font-size: 1.4rem;
+        opacity: 0.9;
+    }
+
+    &__table-container {
+        max-height: 37.5rem;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1.4rem;
+    }
+
+    &__table-head {
+        position: sticky;
+        top: 0;
+        background-color: $color-dga-blue;
+        z-index: 10;
+    }
+
+    &__table-header {
+        background-color: $color-dga-blue;
+        color: white;
+        padding: 1.5rem 1rem;
+        text-align: left;
+        font-weight: $semibold;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        border-bottom: 0.125rem solid color.adjust($color-dga-blue, $lightness: -10%);
+    }
+
+    &__table-row {
+        border-bottom: 0.0625rem solid #ecf0f1;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: #f8f9fa;
         }
 
-        .history-table-container {
-            max-height: 37.5rem;
-            overflow-y: auto;
-            overflow-x: auto;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
 
-            .history-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 1.4rem;
+    &__table-cell {
+        padding: 1.5rem 1rem;
+        vertical-align: middle;
 
-                thead {
-                    position: sticky;
-                    top: 0;
-                    background-color: $color-dga-blue;
-                    z-index: 10;
-                }
-
-                th {
-                    background-color: $color-dga-blue;
-                    color: white;
-                    padding: 1.5rem 1rem;
-                    text-align: left;
-                    font-weight: $semibold;
-                    text-transform: uppercase;
-                    letter-spacing: 0.1rem;
-                    border-bottom: 0.125rem solid color.adjust($color-dga-blue, $lightness: -10%);
-                }
-
-                tbody tr {
-                    border-bottom: 0.0625rem solid #ecf0f1;
-                    transition: background-color 0.2s ease;
-
-                    &:hover {
-                        background-color: #f8f9fa;
-                    }
-
-                    &:last-child {
-                        border-bottom: none;
-                    }
-                }
-
-                td {
-                    padding: 1.5rem 1rem;
-                    vertical-align: middle;
-
-                    &.transaction-id {
-                        font-family: monospace;
-                        font-weight: $medium;
-                        color: $color-dga-blue;
-                    }
-
-                    &.user-id {
-                        font-weight: $semibold;
-                        color: #2c3e50;
-                    }
-
-                    &.amount {
-                        font-weight: $bold;
-                        color: $color-dga-green;
-                        text-align: right;
-                    }
-
-                    &.date {
-                        color: #7f8c8d;
-                    }
-
-                    &.status {
-                        .status-badge {
-                            padding: 0.5rem 1rem;
-                            border-radius: 2rem;
-                            font-size: 1.2rem;
-                            font-weight: $semibold;
-                            text-transform: uppercase;
-
-                            &.completed {
-                                background-color: #d5f4e6;
-                                color: #27ae60;
-                            }
-
-                            &.pending {
-                                background-color: #fff3cd;
-                                color: #f39c12;
-                            }
-
-                            &.failed {
-                                background-color: #f8d7da;
-                                color: #e74c3c;
-                            }
-                        }
-                    }
-
-                    .products-list {
-                        max-width: 12.5rem;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-
-                        .product-item {
-                            display: inline-block;
-                            background-color: #ecf0f1;
-                            padding: 0.3rem 0.8rem;
-                            margin: 0.2rem;
-                            border-radius: 1rem;
-                            font-size: 1.2rem;
-                            color: #2c3e50;
-                        }
-                    }
-                }
-
-                .actions-cell {
-                    .view-details-btn {
-                        background-color: $color-dga-blue;
-                        color: white;
-                        border: none;
-                        padding: 0.8rem 1.5rem;
-                        border-radius: 0.5rem;
-                        font-size: 1.2rem;
-                        cursor: pointer;
-                        transition: background-color 0.3s ease;
-
-                        &:hover {
-                            background-color: color.adjust($color-dga-blue, $lightness: -10%);
-                        }
-                    }
-                }
-            }
+        &--id {
+            font-family: monospace;
+            font-weight: $medium;
+            color: $color-dga-blue;
         }
 
-        .empty-state {
-            padding: 4rem 2rem;
-            text-align: center;
+        &--user {
+            font-weight: $semibold;
+            color: #2c3e50;
+        }
+
+        &--amount {
+            font-weight: $bold;
+            color: $color-dga-green;
+            text-align: right;
+        }
+
+        &--date {
             color: #7f8c8d;
+        }
 
-            .empty-icon {
-                font-size: 4rem;
-                margin-bottom: 1rem;
-                color: #bdc3c7;
-            }
+        &--status {
+            .status-badge {
+                padding: 0.5rem 1rem;
+                border-radius: 2rem;
+                font-size: 1.2rem;
+                font-weight: $semibold;
+                text-transform: uppercase;
 
-            .empty-title {
-                font-size: 1.8rem;
-                font-weight: 700;
-                margin-bottom: 0.5rem;
-                color: #34495e;
-            }
+                &.completed {
+                    background-color: #d5f4e6;
+                    color: #27ae60;
+                }
 
-            .empty-message {
-                font-size: 1.4rem;
+                &.pending {
+                    background-color: #fff3cd;
+                    color: #f39c12;
+                }
+
+                &.failed {
+                    background-color: #f8d7da;
+                    color: #e74c3c;
+                }
             }
         }
     }
 
-    .pagination {
+    &__products-list {
+        max-width: 12.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__product-item {
+        display: inline-block;
+        background-color: #ecf0f1;
+        padding: 0.3rem 0.8rem;
+        margin: 0.2rem;
+        border-radius: 1rem;
+        font-size: 1.2rem;
+        color: #2c3e50;
+    }
+
+    &__view-button {
+        background-color: $color-dga-blue;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: color.adjust($color-dga-blue, $lightness: -10%);
+        }
+    }
+
+    &__empty-state {
+        padding: 4rem 2rem;
+        text-align: center;
+        color: #7f8c8d;
+    }
+
+    &__empty-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #bdc3c7;
+    }
+
+    &__empty-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #34495e;
+    }
+
+    &__empty-message {
+        font-size: 1.4rem;
+    }
+
+    &__pagination {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 1rem;
         margin-top: 2rem;
+    }
 
-        button {
-            padding: 0.8rem 1.2rem;
-            border: 0.0625rem solid #ddd;
-            background-color: white;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.4rem;
+    &__pagination-button {
+        padding: 0.8rem 1.2rem;
+        border: 0.0625rem solid #ddd;
+        background-color: white;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.4rem;
 
-            &:hover:not(:disabled) {
-                background-color: #f8f9fa;
-                border-color: $color-dga-blue;
-            }
-
-            &.active {
-                background-color: $color-dga-blue;
-                color: white;
-                border-color: $color-dga-blue;
-            }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
+        &:hover:not(:disabled) {
+            background-color: #f8f9fa;
+            border-color: $color-dga-blue;
         }
 
-        .page-info {
+        &--active {
+            background-color: $color-dga-blue;
             color: white;
-            font-size: 1.4rem;
-            margin: 0 1rem;
+            border-color: $color-dga-blue;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     }
-}
 
-// Modal para detalles de transacción
-.transaction-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease;
+    &__pagination-info {
+        color: white;
+        font-size: 1.4rem;
+        margin: 0 1rem;
+    }
 
-    .modal-content {
-        background-color: white;
-        padding: 3rem;
-        border-radius: 1rem;
-        width: 37.5rem;
-        max-width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
-        animation: slideIn 0.3s ease;
+    &__export-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
 
-        .modal-header {
+    &__export-button {
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: $semibold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        flex: 1;
+
+        &--pdf {
+            background-color: #e74c3c;
+            color: white;
+
+            &:hover:not(:disabled) {
+                background-color: color.adjust(#e74c3c, $lightness: -10%);
+            }
+        }
+
+        &--excel {
+            background-color: #27ae60;
+            color: white;
+
+            &:hover:not(:disabled) {
+                background-color: color.adjust(#27ae60, $lightness: -10%);
+            }
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    // Modal para detalles de transacción
+    &__transaction-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease;
+
+        &__modal-content {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            width: 37.5rem;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        &__modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -482,105 +475,111 @@
                 font-family: $font-family-kanchenjunga;
                 font-size: 2.4rem;
             }
+        }
 
-            .close-btn {
-                background: none;
-                border: none;
-                font-size: 2rem;
-                cursor: pointer;
-                color: #7f8c8d;
-                padding: 0.5rem;
+        &__close-button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            padding: 0.5rem;
 
-                &:hover {
-                    color: #34495e;
-                }
+            &:hover {
+                color: #34495e;
             }
         }
 
-        .transaction-details {
+        &__transaction-details {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
+        }
 
-            .detail-item {
-                .detail-label {
-                    font-weight: $semibold;
-                    color: $color-dga-blue;
-                    font-size: 1.4rem;
-                    margin-bottom: 0.5rem;
-                }
+        &__detail-item {
+            display: flex;
+            flex-direction: column;
+        }
 
-                .detail-value {
-                    font-size: 1.6rem;
-                    color: #2c3e50;
+        &__detail-label {
+            font-weight: $semibold;
+            color: $color-dga-blue;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
 
-                    &.amount {
-                        font-weight: $bold;
-                        color: $color-dga-green;
-                    }
+        &__detail-value {
+            font-size: 1.6rem;
+            color: #2c3e50;
 
-                    &.transaction-id {
-                        font-family: monospace;
-                        background-color: #f8f9fa;
-                        padding: 0.5rem;
-                        border-radius: 0.3rem;
-                    }
-                }
+            &--amount {
+                font-weight: $bold;
+                color: $color-dga-green;
+            }
+
+            &--transaction-id {
+                font-family: monospace;
+                background-color: #f8f9fa;
+                padding: 0.5rem;
+                border-radius: 0.3rem;
+            }
+
+            &--price,
+            &--total {
+                text-align: right;
+                font-weight: $semibold;
+            }
+
+            &--total {
+                color: $color-dga-green;
             }
         }
 
-        .products-detail {
-            .products-title {
-                font-size: 1.8rem;
+        &__products-detail {
+            margin-top: 2rem;
+        }
+
+        &__products-title {
+            font-size: 1.8rem;
+            font-weight: $semibold;
+            color: $color-dga-blue;
+            margin-bottom: 1rem;
+        }
+
+        &__products-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.4rem;
+
+            th {
+                background-color: #f8f9fa;
+                padding: 1rem;
+                text-align: left;
                 font-weight: $semibold;
                 color: $color-dga-blue;
-                margin-bottom: 1rem;
+                border-bottom: 0.125rem solid #ecf0f1;
             }
 
-            .products-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 1.4rem;
+            td {
+                padding: 1rem;
+                border-bottom: 0.0625rem solid #ecf0f1;
+            }
+        }
 
-                th {
-                    background-color: #f8f9fa;
-                    padding: 1rem;
-                    text-align: left;
-                    font-weight: $semibold;
-                    color: $color-dga-blue;
-                    border-bottom: 0.125rem solid #ecf0f1;
-                }
+        &__total-row {
+            background-color: #f8f9fa;
+            font-weight: $bold;
 
-                td {
-                    padding: 1rem;
-                    border-bottom: 0.0625rem solid #ecf0f1;
-
-                    &.price,
-                    &.total {
-                        text-align: right;
-                        font-weight: $semibold;
-                    }
-
-                    &.total {
-                        color: $color-dga-green;
-                    }
-                }
-
-                .total-row {
-                    background-color: #f8f9fa;
-                    font-weight: $bold;
-
-                    td {
-                        border-top: 0.125rem solid #ecf0f1;
-                        border-bottom: none;
-                    }
-                }
+            td {
+                border-top: 0.125rem solid #ecf0f1;
+                border-bottom: none;
             }
         }
     }
 }
 
+// Animaciones para el modal
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -605,47 +604,47 @@
 
 // Responsive adjustments
 @include respond-to(md) {
-    .history-container {
+    .history {
         padding: 1.5rem;
 
-        .history-filters .filters-grid {
+        &__filters &__filters-grid {
             grid-template-columns: 1fr;
         }
 
-        .history-stats {
+        &__stats {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        .history-content .history-table-container {
+        &__table-container {
             max-height: 25rem;
         }
     }
 }
 
 @include respond-to(sm) {
-    .history-container {
+    .history {
         padding: 1rem;
 
-        .history-header .header-content {
+        &__header .history__header-content {
             h1 {
                 font-size: 2.4rem;
             }
 
-            .export-buttons {
+            .history__export-buttons {
                 flex-direction: column;
                 width: 100%;
 
-                button {
+                .history__export-button {
                     width: 100%;
                 }
             }
         }
 
-        .history-stats {
+        &__stats {
             grid-template-columns: 1fr;
         }
 
-        .history-content .history-table-container .history-table {
+        &__table-container &__table {
             font-size: 1.2rem;
 
             th,
@@ -654,11 +653,11 @@
             }
         }
 
-        .transaction-modal .modal-content {
+        &__transaction-modal &__modal-content {
             padding: 2rem;
             width: 95%;
 
-            .transaction-details {
+            .history__transaction-modal__transaction-details {
                 grid-template-columns: 1fr;
             }
         }
