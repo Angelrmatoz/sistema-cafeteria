@@ -53,7 +53,7 @@
         .menu__buttons {
 
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             margin-bottom: 1.2rem;
 
             @include respond-to(xs) {
