@@ -3,7 +3,11 @@
 @use "sass:color";
 
 .background__home {
-    background-color: $color-dga-dark;
+    background-image: url("./assets/img/DGA-scaled.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     height: 100vh;
     margin: 0;
     padding: 2rem;
@@ -13,10 +17,10 @@
 
     .home-container {
         @include flex(column, center, center);
-        background-color: white;
+        background-color: $color-dga-white;
         border-radius: 2rem;
         padding: 3rem;
-        max-width: 75rem;
+        max-width: 70rem;
         width: 100%;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
 
