@@ -15,6 +15,22 @@
     background-attachment: fixed;
     background-position: center;
 
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 32, 64, 0.65); // Overlay azul oscuro semitransparente
+        z-index: 0;
+    }
+
+    >* {
+        position: relative;
+        z-index: 1;
+    }
+
     .home-container {
         @include flex(column, center, center);
         background-color: $color-dga-white;

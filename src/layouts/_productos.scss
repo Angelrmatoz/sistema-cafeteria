@@ -18,7 +18,27 @@
 .productos-container {
     @include flex(row, flex-start, stretch, nowrap);
     min-height: 100vh;
-    background-color: $color-dga-dark;
+    background-image: url("./assets/img/DGA-scaled.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 32, 64, 0.70); // Overlay azul oscuro semitransparente
+        z-index: 0;
+    }
+
+    >* {
+        position: relative;
+        z-index: 1;
+    }
 
     @include respond-to(md) {
         flex-direction: column;
@@ -28,7 +48,9 @@
     .productos-sidebar {
         width: 70%;
         padding: 2rem;
-        background-color: $color-dga-dark;
+        position: relative;
+        z-index: 1; // Asegura que esté por encima del overlay
+        background-color: transparent; // Quita el fondo negro
 
         @include respond-to(md) {
             width: 100%;
@@ -205,6 +227,8 @@
         padding: 2rem;
         @include flex(column, flex-start, stretch);
         box-shadow: -0.5rem 0 2rem rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1; // Asegura que esté por encima del overlay
 
         @include respond-to(md) {
             width: 100%;
