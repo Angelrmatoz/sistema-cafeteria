@@ -3,17 +3,17 @@
 @use "sass:color";
 
 .background__home {
-    background-image: url("./assets/img/DGA-scaled.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
     height: 100vh;
     margin: 0;
     padding: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("./assets/img/DGA-scaled.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 
     .home-container {
         @include flex(column, center, center);

@@ -3,11 +3,31 @@
 
 .inventory-container {
     padding: 2rem;
-    background-color: $color-dga-dark;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    background-image: url("../assets/img/DGA-scaled.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 32, 64, 0.93); // Overlay azul oscuro semitransparente
+        z-index: 0;
+    }
+
+    >* {
+        position: relative;
+        z-index: 1;
+    }
 
     .inventory-header {
         display: flex;
