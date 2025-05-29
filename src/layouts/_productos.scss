@@ -76,7 +76,7 @@
 
             display: flex;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
 
             @include respond-to(xs) {
                 &--secondary {
@@ -193,7 +193,7 @@
 
                 .producto-image {
                     height: 10rem;
-                    background-color: color.adjust($color-dga-blue-light, $lightness: 30%);
+                    background-color: rgba($color-dga-blue, 0.8);
                     border-radius: 0.8rem;
                     margin-bottom: 1rem;
                 }

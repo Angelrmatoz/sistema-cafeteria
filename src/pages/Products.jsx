@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { categories } from "../data/categories";
 import { products } from "../data/products";
 import { useFullscreen } from "../hooks/useFullscreen";
+import { useAuth } from "../context/useAuth";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -12,7 +13,15 @@ const Products = () => {
   const [total, setTotal] = useState(0);
   const [userId, setUserId] = useState(""); // Nuevo estado para ID de usuario
   const { isFullscreen, toggleFullscreen } = useFullscreen();
+  const { logout } = useAuth();
 
+  const handleCloseCaja = () => {
+    if (window.confirm("¿Está seguro que desea cerrar la caja?")) {
+      // Solo hacer logout, el contexto se encarga de la navegación
+      logout();
+    }
+  };
+  
   // Filtramos los productos por categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState(1);
   const filteredProducts = products.filter(
@@ -97,11 +106,19 @@ const Products = () => {
           <div className="menu__buttons">
             <Button
               className="menu__buttons--primary"
-              variant="danger"
+              variant="secondary"
               type="button"
               onClick={() => navigate("/home")}
             >
               Volver
+            </Button>
+            <Button
+              className="menu__buttons--primary"
+              variant="danger"
+              type="button"
+              onClick={handleCloseCaja}
+            >
+              Cerrar caja
             </Button>
             <Button
               className="menu__buttons--secondary"

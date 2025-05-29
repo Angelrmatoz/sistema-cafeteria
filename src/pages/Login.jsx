@@ -6,7 +6,7 @@ import { users } from "../data/users.js";
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); // Añadir de vuelta
   const { login, isAuthenticated } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,23 +14,20 @@ const Login = () => {
 
   // Redireccionar si ya está autenticado
   useEffect(() => {
-    if (isAuthenticated) {
-      // Redirigir al usuario a la página a la que intentaba acceder, o a /home como fallback
-      const destination = location.state?.from?.pathname || "/home";
-      navigate(destination, { replace: true });
+    if (isAuthenticated && location.pathname === "/") {
+      navigate("/home", { replace: true });
     }
-  }, [isAuthenticated, navigate, location]);
+  }, [isAuthenticated, navigate, location.pathname]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = users.find(
       (u) => u.username === username && u.password === password
     );
+
     if (user) {
       setError("");
-      // Login con el contexto de autenticación
       login({ username: user.username, role: user.role });
-      navigate("/home");
     } else {
       setError("Usuario o contraseña incorrectos");
     }

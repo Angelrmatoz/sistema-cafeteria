@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Proveedor del contexto de autenticación
@@ -9,6 +10,7 @@ import { AuthContext } from "./AuthContext";
  */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Al iniciar, verificamos si hay un usuario en localStorage
@@ -31,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    navigate("/", { replace: true });
   };
 
   const isAuthenticated = !!user;
