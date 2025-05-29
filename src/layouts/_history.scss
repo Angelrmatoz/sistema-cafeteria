@@ -68,6 +68,13 @@
     &__buttons {
         display: flex;
         gap: 1rem;
+        margin: 1rem 0;
+
+        @include respond-to(xs) {
+            .history__button--fullscreen {
+                display: none;
+            }
+        }
     }
 
     &__filters {
