@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Proveedor del contexto de autenticación
@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
  */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Al iniciar, verificamos si hay un usuario en localStorage
@@ -23,11 +25,20 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     }
+    setIsInitialized(true);
   }, []);
+
+  // Solo manejar redirección desde login después de la inicialización
+  useEffect(() => {
+    if (isInitialized && user && location.pathname === "/") {
+      navigate("/home", { replace: true });
+    }
+  }, [user, location.pathname, navigate, isInitialized]);
 
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
+    // La redirección se maneja en el useEffect de arriba
   };
 
   const logout = () => {

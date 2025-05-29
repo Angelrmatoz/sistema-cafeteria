@@ -1,23 +1,15 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button.jsx";
 import { useAuth } from "../context/useAuth";
 import { users } from "../data/users.js";
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Añadir de vuelta
-  const { login, isAuthenticated } = useAuth();
+  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  // Redireccionar si ya está autenticado
-  useEffect(() => {
-    if (isAuthenticated && location.pathname === "/") {
-      navigate("/home", { replace: true });
-    }
-  }, [isAuthenticated, navigate, location.pathname]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
