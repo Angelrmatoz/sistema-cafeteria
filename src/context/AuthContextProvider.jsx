@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from "react-router-dom";
  */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,20 +25,17 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     }
-    setIsInitialized(true);
+    setIsLoading(false);
   }, []);
 
-  // Solo manejar redirección desde login después de la inicialización
-  useEffect(() => {
-    if (isInitialized && user && location.pathname === "/") {
-      navigate("/home", { replace: true });
-    }
-  }, [user, location.pathname, navigate, isInitialized]);
-
+  // SOLO redirigir desde login cuando se hace login activo
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
-    // La redirección se maneja en el useEffect de arriba
+    // Solo navegar si estamos en la página de login
+    if (location.pathname === "/") {
+      navigate("/home", { replace: true });
+    }
   };
 
   const logout = () => {
@@ -46,11 +43,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     navigate("/", { replace: true });
   };
-
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isAuthenticated, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
