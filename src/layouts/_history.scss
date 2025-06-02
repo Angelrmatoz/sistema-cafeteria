@@ -14,6 +14,15 @@
     background-attachment: fixed;
     position: relative;
 
+    // Responsive de la historia completa
+    @include respond-to(md) {
+        padding: 1.5rem;
+    }
+
+    @include respond-to(sm) {
+        padding: 1rem;
+    }
+
     &::before {
         content: '';
         position: absolute;
@@ -49,6 +58,10 @@
                 margin: 0;
                 text-align: center;
                 order: -1;
+
+                @include respond-to(sm) {
+                    font-size: 2.4rem;
+                }
             }
 
             @include respond-to-min(sm) {
@@ -60,6 +73,17 @@
                     left: 50%;
                     transform: translateX(-50%);
                     order: 0;
+                }
+            }
+
+            .history__export-buttons {
+                @include respond-to(sm) {
+                    flex-direction: column;
+                    width: 100%;
+
+                    .history__export-button {
+                        width: 100%;
+                    }
                 }
             }
         }
@@ -96,66 +120,72 @@
             @include grid();
             grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr));
             align-items: end;
+
+            @include respond-to(md) {
+                grid-template-columns: 1fr;
+            }
         }
     }
 
-    &__filter-actions {
-        display: flex;
-        gap: 1rem;
-    }
-
-    &__filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    &__filter-label {
-        font-weight: $semibold;
-        color: $color-dga-blue;
-        font-size: 1.4rem;
-    }
-
-    &__filter-input,
-    &__filter-select {
-        padding: 1rem;
-        border: 0.0625rem solid #ddd;
-        border-radius: 0.5rem;
-        font-size: 1.4rem;
-        transition: border-color 0.3s ease;
-
-        &:focus {
-            outline: none;
-            border-color: $color-dga-blue;
-            box-shadow: 0 0 0 0.125rem rgba($color-dga-blue, 0.2);
+    &__filter {
+        &-actions {
+            display: flex;
+            gap: 1rem;
         }
-    }
 
-    &__filter-button {
-        padding: 1rem 1.5rem;
-        border: none;
-        border-radius: 0.5rem;
-        font-size: 1.4rem;
-        font-weight: $semibold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        flex: 1;
+        &-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
 
-        &--apply {
-            background-color: $color-dga-blue;
-            color: white;
+        &-label {
+            font-weight: $semibold;
+            color: $color-dga-blue;
+            font-size: 1.4rem;
+        }
 
-            &:hover {
-                background-color: color.adjust($color-dga-blue, $lightness: -10%);
+        &-input,
+        &-select {
+            padding: 1rem;
+            border: 0.0625rem solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1.4rem;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $color-dga-blue;
+                box-shadow: 0 0 0 0.125rem rgba($color-dga-blue, 0.2);
             }
         }
 
-        &--clear {
-            background-color: #95a5a6;
-            color: white;
+        &-button {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: $semibold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
 
-            &:hover {
-                background-color: #7f8c8d;
+            &--apply {
+                background-color: $color-dga-blue;
+                color: white;
+
+                &:hover {
+                    background-color: color.adjust($color-dga-blue, $lightness: -10%);
+                }
+            }
+
+            &--clear {
+                background-color: #95a5a6;
+                color: white;
+
+                &:hover {
+                    background-color: #7f8c8d;
+                }
             }
         }
     }
@@ -164,47 +194,57 @@
         @include grid();
         grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
         margin-bottom: 2rem;
-    }
 
-    &__stat-card {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: transform 0.3s ease;
+        @include respond-to(md) {
+            grid-template-columns: repeat(2, 1fr);
+        }
 
-        &:hover {
-            transform: translateY(-0.3125rem);
+        @include respond-to(sm) {
+            grid-template-columns: 1fr;
         }
     }
 
-    &__stat-value {
-        font-size: 2.5rem;
-        font-weight: $bold;
-        margin-bottom: 0.5rem;
+    &__stat {
+        &-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
 
-        &--sales {
-            color: $color-dga-green;
+            &:hover {
+                transform: translateY(-0.3125rem);
+            }
         }
 
-        &--revenue {
-            color: $color-dga-blue;
+        &-value {
+            font-size: 2.5rem;
+            font-weight: $bold;
+            margin-bottom: 0.5rem;
+
+            &--sales {
+                color: $color-dga-green;
+            }
+
+            &--revenue {
+                color: $color-dga-blue;
+            }
+
+            &--customers {
+                color: #e67e22;
+            }
+
+            &--average {
+                color: #9b59b6;
+            }
         }
 
-        &--customers {
-            color: #e67e22;
+        &-label {
+            font-size: 1.4rem;
+            color: #7f8c8d;
+            font-weight: $medium;
         }
-
-        &--average {
-            color: #9b59b6;
-        }
-    }
-
-    &__stat-label {
-        font-size: 1.4rem;
-        color: #7f8c8d;
-        font-weight: $medium;
     }
 
     &__content {
@@ -239,12 +279,25 @@
         max-height: 37.5rem;
         overflow-y: auto;
         overflow-x: auto;
-    }
 
-    &__table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 1.4rem;
+        @include respond-to(md) {
+            max-height: 25rem;
+        }
+
+        .history__table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.4rem;
+
+            @include respond-to(sm) {
+                font-size: 1.2rem;
+
+                th,
+                td {
+                    padding: 1rem 0.5rem;
+                }
+            }
+        }
     }
 
     &__table-head {
@@ -424,44 +477,9 @@
         margin: 0 1rem;
     }
 
-    &__export-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
-
-    &__export-button {
-        padding: 1rem 2rem;
-        border: none;
-        border-radius: 0.5rem;
-        font-size: 1.4rem;
-        font-weight: $semibold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        flex: 1;
-
-        &--pdf {
-            background-color: #e74c3c;
-            color: white;
-
-            &:hover:not(:disabled) {
-                background-color: color.adjust(#e74c3c, $lightness: -10%);
-            }
-        }
-
-        &--excel {
-            background-color: #27ae60;
-            color: white;
-
-            &:hover:not(:disabled) {
-                background-color: color.adjust(#27ae60, $lightness: -10%);
-            }
-        }
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     // Modal para detalles de transacción
@@ -606,6 +624,27 @@
             }
         }
     }
+
+    &__export-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        gap: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+
+        button {
+            width: 100%;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        @include respond-to(sm) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 }
 
 // Animaciones para el modal
@@ -663,8 +702,11 @@
                 flex-direction: column;
                 width: 100%;
 
-                .history__export-button {
+                .history__export-button,
+                .btn-danger,
+                .btn-tertiary {
                     width: 100%;
+                    margin-bottom: 0.5rem;
                 }
             }
         }

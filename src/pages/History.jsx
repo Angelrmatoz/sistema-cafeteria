@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import "../layouts/_history.scss";
 import sampleTransactions from "../data/transactions";
 import { useNavigate } from "react-router-dom";
-import { useFullscreen } from "../hooks/useFullscreen";
 import Button from "../components/Button";
 
 const History = () => {
   const navigate = useNavigate();
-  const { isFullscreen, toggleFullscreen } = useFullscreen();
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [filters, setFilters] = useState({
@@ -204,14 +202,6 @@ const History = () => {
               onClick={() => navigate("/home")}
             >
               Volver
-            </Button>
-            <Button
-              className="history__button history__button--fullscreen"
-              variant="primary"
-              type="button"
-              onClick={toggleFullscreen}
-            >
-              {isFullscreen ? "ESC" : "Fullscreen"}
             </Button>
           </div>
         </div>
@@ -574,22 +564,25 @@ const History = () => {
             </div>
           </div>
         </div>
-      )}
+      )}{" "}
       <div className="history__export-buttons">
-        <button
-          className="history__export-button history__export-button--pdf"
+        {" "}
+        <Button
+          variant="danger"
           onClick={exportToPDF}
           disabled={filteredTransactions.length === 0}
+          className="history__export-button"
         >
-          📄 Exportar PDF
-        </button>
-        <button
-          className="history__export-button history__export-button--excel"
+          Reporte de ventas del día en PDF 📊
+        </Button>
+        <Button
+          variant="tertiary"
           onClick={exportToExcel}
           disabled={filteredTransactions.length === 0}
+          className="history__export-button"
         >
-          📊 Exportar Excel
-        </button>
+          Reporte de ventas del día en Excel 📈
+        </Button>
       </div>
     </div>
   );

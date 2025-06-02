@@ -9,11 +9,9 @@ import {
   validateProductData,
 } from "../utils/inventoryHelpers";
 import "../layouts/_inventory.scss";
-import { useFullscreen } from "../hooks/useFullscreen";
 
 const Inventory = () => {
   const navigate = useNavigate();
-  const { isFullscreen, toggleFullscreen } = useFullscreen();
   const [inventory, setInventory] = useState([]);
   const [categories, setCategories] = useState(defaultCategories);
   const [showModal, setShowModal] = useState(false);
@@ -161,14 +159,6 @@ const Inventory = () => {
               onClick={() => navigate("/home")}
             >
               Volver
-            </Button>
-            <Button
-              className="menu__buttons--secondary"
-              variant="primary"
-              type="button"
-              onClick={toggleFullscreen}
-            >
-              {isFullscreen ? "ESC" : "Fullscreen"}
             </Button>
           </div>
           <h1>Inventario de Productos</h1>
