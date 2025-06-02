@@ -26,17 +26,16 @@ const Login = () => {
   };
 
   return (
-    <div className="img-background">
-      <div className="login">
-        <div>
+    <main className="img-background">
+      <section className="login">
+        <header>
           <img
             className="logo-DGA"
             src="./src/assets/icons/DGA-icon-svg.svg"
             alt="DGA Logo"
           />
-        </div>
-
-        <h1 className="login__title">Login</h1>
+          <h1 className="login__title">Login</h1>
+        </header>
 
         <form className="login__form" onSubmit={handleSubmit}>
           <div>
@@ -70,7 +69,7 @@ const Login = () => {
           {error && (
             <div style={{ color: "red", marginBottom: "1rem" }}>{error}</div>
           )}{" "}
-          <div className="login__buttons">
+          <footer className="login__buttons">
             <Button variant="primary" type="submit">
               Iniciar sesión
             </Button>
@@ -81,10 +80,10 @@ const Login = () => {
             >
               Registrarse
             </Button>
-          </div>
+          </footer>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

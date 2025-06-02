@@ -5,17 +5,16 @@ const Register = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="img-background">
-      <div className="login">
-        <div>
+    <main className="img-background">
+      <section className="login">
+        <header>
           <img
             className="logo-DGA"
             src="./src/assets/icons/DGA-icon-svg.svg"
             alt="DGA Logo"
           />
-        </div>
-
-        <h1 className="login__title">Registro</h1>
+          <h1 className="login__title">Registro</h1>
+        </header>
 
         <form className="login__form" action="/home" method="POST">
           <div>
@@ -70,11 +69,8 @@ const Register = () => {
             />
           </div>
 
-          <div className="login__buttons">
-            <Button
-              variant="primary"
-              type="submit"
-            >
+          <footer className="login__buttons">
+            <Button variant="primary" type="submit">
               Registrarse
             </Button>
             <Button
@@ -84,10 +80,10 @@ const Register = () => {
             >
               Volver
             </Button>
-          </div>
+          </footer>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

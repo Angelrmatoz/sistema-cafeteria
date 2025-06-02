@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <main className="background__home">
-      <div className="home-container">
+      <section className="home-container">
         <div className="home-header">
           <img
             className="home-logo"
@@ -34,18 +34,20 @@ const Home = () => {
             <p>Consulta el historial de ventas</p>
           </div>
         </nav>
-        <Button
-          variant="danger"
-          size="lg"
-          onClick={() => {
-            logout();
-            navigate("/");
-          }}
-          className="logout-button"
-        >
-          Cerrar sesión
-        </Button>
-      </div>
+        <footer>
+          <Button
+            variant="danger"
+            size="lg"
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
+            className="logout-button"
+          >
+            Cerrar sesión
+          </Button>
+        </footer>
+      </section>
     </main>
   );
 };

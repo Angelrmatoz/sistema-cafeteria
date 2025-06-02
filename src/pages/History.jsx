@@ -189,9 +189,9 @@ const History = () => {
     );
   };
   return (
-    <div className="history">
+    <main className="history">
       {/* Header */}
-      <div className="history__header">
+      <header className="history__header">
         <div className="history__header-content">
           <h1 className="history__title">Historial de Ventas</h1>{" "}
           <div className="history__buttons">
@@ -205,9 +205,9 @@ const History = () => {
             </Button>
           </div>
         </div>
-      </div>{" "}
+      </header>{" "}
       {/* Filtros */}
-      <div className="history__filters">
+      <section className="history__filters">
         <div className="history__filters-title">Filtros de Búsqueda</div>
         <div className="history__filters-grid">
           <div className="history__filter-group">
@@ -307,9 +307,9 @@ const History = () => {
             </button>
           </div>
         </div>
-      </div>
+      </section>
       {/* Estadísticas */}
-      <div className="history__stats">
+      <section className="history__stats">
         <div className="history__stat-card">
           <div className="history__stat-value history__stat-value--sales">
             {stats.totalSales}
@@ -334,9 +334,9 @@ const History = () => {
           </div>
           <div className="history__stat-label">Promedio por Venta</div>
         </div>
-      </div>{" "}
+      </section>{" "}
       {/* Contenido de transacciones */}
-      <div className="history__content">
+      <section className="history__content">
         <div className="history__content-header">
           <h3 className="history__content-title">Transacciones</h3>
           <div className="history__results-count">
@@ -461,7 +461,7 @@ const History = () => {
             </div>
           </div>
         )}
-      </div>{" "}
+      </section>{" "}
       {/* Modal de detalles de transacción */}
       {showModal && selectedTransaction && (
         <div className="history__transaction-modal" onClick={closeModal}>
@@ -584,7 +584,7 @@ const History = () => {
           Reporte de ventas del día en Excel 📈
         </Button>
       </div>
-    </div>
+    </main>
   );
 };
 

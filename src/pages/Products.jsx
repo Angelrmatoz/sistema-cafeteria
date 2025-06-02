@@ -21,7 +21,7 @@ const Products = () => {
       logout();
     }
   };
-  
+
   // Filtramos los productos por categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState(1);
   const filteredProducts = products.filter(
@@ -98,8 +98,8 @@ const Products = () => {
   };
 
   return (
-    <div className="productos-container">
-      <div className="productos-sidebar">
+    <main className="productos-container">
+      <section className="productos-sidebar">
         {" "}
         <div className="productos-sidebar__header">
           {" "}
@@ -131,7 +131,7 @@ const Products = () => {
           </div>
           <h2>Menú</h2>{" "}
         </div>{" "}
-        <div className="categorias-navigation-container">
+        <section className="categorias-navigation-container">
           <Arrows
             onPrevious={navigateToPreviousCategory}
             onNext={navigateToNextCategory}
@@ -176,8 +176,8 @@ const Products = () => {
               </div>
             ))}
           </div>
-        </div>{" "}
-        <div className="productos-grid-container">
+        </section>{" "}
+        <section className="productos-grid-container">
           {" "}
           <div className="productos-grid">
             {filteredProducts.map((product) => (
@@ -192,10 +192,10 @@ const Products = () => {
               </div>
             ))}
           </div>{" "}
-        </div>
-      </div>
+        </section>
+      </section>
 
-      <div className="carrito-container">
+      <aside className="carrito-container">
         <h2 className="carrito-title">Cuenta</h2>
         {/* <div className="carrito-tabs">
           <span className="carrito-tab active">Cuenta</span>
@@ -261,8 +261,8 @@ const Products = () => {
         >
           Pagar
         </Button>
-      </div>
-    </div>
+      </aside>
+    </main>
   );
 };
 

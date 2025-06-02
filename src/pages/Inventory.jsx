@@ -148,9 +148,9 @@ const Inventory = () => {
   });
 
   return (
-    <div className="inventory-container">
+    <main className="inventory-container">
       {" "}
-      <div className="inventory-header">
+      <header className="inventory-header">
         <div className="header-buttons">
           <div className="left-buttons">
             <Button
@@ -167,7 +167,7 @@ const Inventory = () => {
             Agregar Producto
           </Button>
         </div>
-      </div>
+      </header>
       <div className="inventory-filters">
         <div className="search-bar">
           <input
@@ -313,7 +313,7 @@ const Inventory = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
