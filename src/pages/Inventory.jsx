@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import InventoryProductTable from "../components/InventoryProductTable";
+import InventoryProductModal from "../components/InventoryProductModal";
+import InventoryFilters from "../components/InventoryFilters";
 import { categories as defaultCategories } from "../data/categories";
 import {
   loadInventory,
   saveInventory,
   generateProductId,
   validateProductData,
+  calculatePriceWithTax,
 } from "../utils/inventoryHelpers";
 import "../layouts/_inventory.scss";
 
@@ -22,6 +26,7 @@ const Inventory = () => {
     price: "",
     category: "",
     image: "",
+    tax: "",
   });
   const [formErrors, setFormErrors] = useState({});
   const [filterCategory, setFilterCategory] = useState("");
@@ -56,12 +61,12 @@ const Inventory = () => {
       saveInventory(inventory);
     }
   }, [inventory, isLoading]);
-
   // Función para obtener el nombre de la categoría
   const getCategoryName = (categoryId) => {
     const category = categories.find((cat) => cat.id === categoryId);
     return category ? category.name : "Sin categoría";
   };
+
   // Funciones para manejar las acciones
   const handleAddProduct = () => {
     setModalMode("add");
@@ -70,12 +75,12 @@ const Inventory = () => {
       id: generateProductId(inventory).toString(),
       name: "",
       price: "",
-      category: categories[0]?.id || "",
+      category: categories[0]?.id || 1,
       image: "/assets/img/default-product.png",
+      tax: "0", // Valor predeterminado para impuesto
     });
     setShowModal(true);
   };
-
   const handleEditProduct = (product) => {
     setModalMode("edit");
     setFormErrors({});
@@ -85,6 +90,7 @@ const Inventory = () => {
       price: product.price,
       category: product.category,
       image: product.image || "/assets/img/default-product.png",
+      tax: product.tax || "0", // Aseguramos que tenga un valor de impuesto
     });
     setShowModal(true);
   };
@@ -97,9 +103,7 @@ const Inventory = () => {
       );
       setInventory(updatedInventory);
     }
-  };
-
-  // Manejar cambios en el formulario
+  }; // Manejar cambios en el formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -108,7 +112,12 @@ const Inventory = () => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" ? parseFloat(value) || 0 : value,
+      [name]:
+        name === "price"
+          ? parseFloat(value) || 0
+          : name === "category" || name === "tax"
+          ? parseInt(value, 10) // Convertir categoría e impuesto a número
+          : value,
     }));
   };
 
@@ -134,11 +143,11 @@ const Inventory = () => {
     } // Cerrar modal y limpiar formulario
     setShowModal(false);
   };
-
   // Filtrar productos por categoría y término de búsqueda
   const filteredProducts = inventory.filter((product) => {
     const matchesCategory =
-      !filterCategory || product.category.toString() === filterCategory;
+      !filterCategory ||
+      parseInt(product.category) === parseInt(filterCategory);
     const matchesSearch =
       !searchTerm ||
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -146,10 +155,8 @@ const Inventory = () => {
 
     return matchesCategory && matchesSearch;
   });
-
   return (
     <main className="inventory-container">
-      {" "}
       <header className="inventory-header">
         <div className="header-buttons">
           <div className="left-buttons">
@@ -168,29 +175,15 @@ const Inventory = () => {
           </Button>
         </div>
       </header>
-      <div className="inventory-filters">
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Buscar por nombre o ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="category-filter">
-          <select
-            value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
-          >
-            <option value="">Todas las categorías</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id.toString()}>
-                {cat.name} ({cat.items})
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+
+      <InventoryFilters
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        filterCategory={filterCategory}
+        setFilterCategory={setFilterCategory}
+        categories={categories}
+      />
+
       {isLoading ? (
         <div className="loading-container">
           <p>Cargando inventario...</p>
@@ -200,119 +193,25 @@ const Inventory = () => {
           <p>No se encontraron productos que coincidan con la búsqueda.</p>
         </div>
       ) : (
-        <div className="inventory-table-container">
-          <table className="inventory-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio (RD$)</th>
-                <th>Categoría</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.map((product) => (
-                <tr key={product.id}>
-                  <td>{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price.toFixed(2)}</td>
-                  <td>{getCategoryName(product.category)}</td>
-                  <td className="action-buttons">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handleEditProduct(product)}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDeleteProduct(product.id)}
-                    >
-                      Eliminar
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <InventoryProductTable
+          products={filteredProducts}
+          handleEditProduct={handleEditProduct}
+          handleDeleteProduct={handleDeleteProduct}
+          getCategoryName={getCategoryName}
+          calculatePriceWithTax={calculatePriceWithTax}
+        />
       )}
-      {/* Modal para agregar/editar producto */}
-      {showModal && (
-        <div className="product-modal">
-          <div className="modal-content">
-            <h2>
-              {modalMode === "add" ? "Agregar Producto" : "Editar Producto"}
-            </h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Nombre del Producto</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
-                {formErrors.name && (
-                  <p className="error-text">{formErrors.name}</p>
-                )}
-              </div>
-              <div className="form-group">
-                <label htmlFor="price">Precio (RD$)</label>
-                <input
-                  type="number"
-                  id="price"
-                  name="price"
-                  step="0.01"
-                  min="0"
-                  value={formData.price}
-                  onChange={handleInputChange}
-                  required
-                />
-                {formErrors.price && (
-                  <p className="error-text">{formErrors.price}</p>
-                )}
-              </div>
-              <div className="form-group">
-                <label htmlFor="category">Categoría</label>
-                <select
-                  id="category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  required
-                >
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.category && (
-                  <p className="error-text">{formErrors.category}</p>
-                )}
-              </div>
-              <div className="modal-actions">
-                <Button
-                  variant="ghost"
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancelar
-                </Button>
-                <Button variant="tertiary" type="submit">
-                  {modalMode === "add" ? "Agregar" : "Guardar"}
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+
+      <InventoryProductModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        modalMode={modalMode}
+        formData={formData}
+        formErrors={formErrors}
+        categories={categories}
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+      />
     </main>
   );
 };

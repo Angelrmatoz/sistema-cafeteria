@@ -63,6 +63,15 @@ export const generateProductId = (inventory) => {
     return maxId + 1;
 };
 
+// Calcular el precio con impuesto incluido
+export const calculatePriceWithTax = (price, taxRate) => {
+    if (!price || isNaN(price)) return 0;
+    if (!taxRate || isNaN(taxRate)) return parseFloat(price);
+
+    const taxAmount = parseFloat(price) * (parseFloat(taxRate) / 100);
+    return parseFloat(price) + taxAmount;
+};
+
 // Validar datos del producto
 export const validateProductData = (productData) => {
     const errors = {};
@@ -77,6 +86,10 @@ export const validateProductData = (productData) => {
 
     if (!productData.category) {
         errors.category = "La categoría es requerida";
+    }
+
+    if (productData.tax === undefined || productData.tax === "") {
+        errors.tax = "Debe seleccionar un tipo de impuesto";
     }
 
     return {

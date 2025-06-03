@@ -18,7 +18,7 @@
 .productos-container {
     @include flex(row, flex-start, stretch, nowrap);
     min-height: 100vh;
-    background-image: url("./assets/img/DGA-scaled.jpg");
+    background-image: url("../assets/img/DGA-scaled.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -109,7 +109,7 @@
         .categorias-container {
             @include flex(row, center, center, wrap);
             gap: 2.5rem;
-            margin: 2rem 0 3rem;
+            margin: 2rem 0 3rem 0;
 
             @include respond-to(xs) {
                 overflow-x: auto;
@@ -190,6 +190,7 @@
                 padding: 1.5rem;
                 cursor: pointer;
                 transition: transform 0.3s, box-shadow 0.3s;
+                margin-top: 1rem;
 
                 .producto-image {
                     height: 10rem;
